@@ -21,7 +21,8 @@ class Config:
     ALLOWED_EXTENSIONS = {"pdf", "doc", "docx", "txt", "jpg", "jpeg", "png", "gif"}
     
     # Database Configuration
-    DATA_FOLDER = "app/data"
+    BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    DATA_FOLDER = os.path.join(BASE_DIR, "app", "data")
     
     # Google Drive Configuration
     GOOGLE_DRIVE_CREDENTIALS_FILE = os.environ.get(

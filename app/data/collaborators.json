@@ -1,0 +1,42 @@
+[
+  {
+    "id": "collab-001",
+    "name": "João Silva",
+    "sector_id": "comercial",
+    "email": "joao.silva@velozfibra.com",
+    "phone": "(11) 99999-1111",
+    "created_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "collab-002",
+    "name": "Maria Santos",
+    "sector_id": "tecnico",
+    "email": "maria.santos@velozfibra.com",
+    "phone": "(11) 99999-2222",
+    "created_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "collab-003",
+    "name": "Pedro Oliveira",
+    "sector_id": "financeiro",
+    "email": "pedro.oliveira@velozfibra.com",
+    "phone": "(11) 99999-3333",
+    "created_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "collab-004",
+    "name": "Ana Costa",
+    "sector_id": "rh",
+    "email": "ana.costa@velozfibra.com",
+    "phone": "(11) 99999-4444",
+    "created_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "collab-005",
+    "name": "Carlos Ferreira",
+    "sector_id": "ti",
+    "email": "carlos.ferreira@velozfibra.com",
+    "phone": "(11) 99999-5555",
+    "created_at": "2025-01-20T10:00:00"
+  }
+] 

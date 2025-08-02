@@ -1,0 +1,23 @@
+[
+  {
+    "id": "activity-20250801154137",
+    "user_id": "admin-001",
+    "action": "login",
+    "details": "Login realizado por Matheus Gallina",
+    "timestamp": "2025-08-01T15:41:37.984630"
+  },
+  {
+    "id": "activity-20250801160718",
+    "user_id": "admin-001",
+    "action": "logout",
+    "details": "Logout realizado por Matheus Gallina",
+    "timestamp": "2025-08-01T16:07:18.137856"
+  },
+  {
+    "id": "activity-20250802085609",
+    "user_id": "admin-001",
+    "action": "login",
+    "details": "Login realizado por Matheus Gallina",
+    "timestamp": "2025-08-02T08:56:09.286407"
+  }
+]

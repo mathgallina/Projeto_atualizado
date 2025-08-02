@@ -197,6 +197,22 @@ def register_blueprints(app, db_manager):
     except Exception as e:
         logger.error(f"Error registering backup blueprint: {e}")
     
+    try:
+        # Register goals module
+        from app.modules.goals.routes import goals_bp
+        app.register_blueprint(goals_bp, url_prefix="/goals")
+        logger.info("Goals blueprint registered")
+    except Exception as e:
+        logger.error(f"Error registering goals blueprint: {e}")
+    
+    try:
+        # Register trainings module
+        from app.modules.trainings.routes import trainings_bp
+        app.register_blueprint(trainings_bp, url_prefix="/trainings")
+        logger.info("Trainings blueprint registered")
+    except Exception as e:
+        logger.error(f"Error registering trainings blueprint: {e}")
+    
     logger.info("All blueprints registered")
 
 

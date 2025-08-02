@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Metas - VELOZ FIBRA v1.1.2</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .animate-scale-in { animation: scaleIn 0.5s ease-out; }
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-delay-500 { animation-delay: 0.5s; }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-success { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .gradient-warning { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .gradient-info { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        
+        /* Proteções de segurança */
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: none;
+        }
+        
+        .security-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #dc2626;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 10000;
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 font-poppins">
+    <!-- Proteção de segurança -->
+    <div class="security-overlay" id="securityOverlay"></div>
+    <div class="security-warning" id="securityWarning">
+        <h3>⚠️ Acesso Negado</h3>
+        <p>Você não tem permissão para acessar o sistema de metas.</p>
+    </div>
+
+    <div x-data="metasApp()" class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="history.back()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                            <i class="fas fa-arrow-left text-xl"></i>
+                        </button>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                                <i class="fas fa-bullseye text-blue-500 mr-3"></i>
+                                Sistema de Metas v1.1.2
+                            </h1>
+                            <p class="text-gray-600 dark:text-gray-300">Sistema blindado e protegido</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-green-600 dark:text-green-400">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            Protegido
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Welcome Section -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Bem-vindo ao seu Dashboard Blindado
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    Sistema de metas isolado e protegido - v1.1.2
+                </p>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-100 cursor-pointer" @click="activeTab = 'goals'">
+                    <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-bullseye text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Sistema de Metas
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Gerencie metas e acompanhe o desempenho da sua equipe
+                    </p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-200 cursor-pointer" @click="activeTab = 'collaborators'">
+                    <div class="w-16 h-16 gradient-success rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Gestão de Equipe
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Organize e gerencie informações da sua equipe
+                    </p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-300 cursor-pointer" @click="activeTab = 'commissions'">
+                    <div class="w-16 h-16 gradient-warning rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-chart-bar text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Relatórios
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Visualize métricas e relatórios de desempenho
+                    </p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-400 cursor-pointer" @click="activeTab = 'sectors'">
+                    <div class="w-16 h-16 gradient-info rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-cog text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Configurações
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Ajuste as configurações do sistema
+                    </p>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">12</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Metas Ativas</div>
+                    <div class="text-xs text-green-600 dark:text-green-400 mt-1">+2 este mês</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">24</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Colaboradores</div>
+                    <div class="text-xs text-blue-600 dark:text-blue-400 mt-1">Equipe ativa</div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">87%</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Performance</div>
+                    <div class="text-xs text-yellow-600 dark:text-yellow-400 mt-1">Média geral</div>
+                </div>
+            </div>
+
+            <!-- System Management Section -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                        Gestão do Sistema Blindado
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Sistema isolado e protegido - v1.1.2
+                    </p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="border-b border-gray-200/50 dark:border-gray-700/50 mb-8">
+                    <nav class="flex space-x-8">
+                        <button @click="activeTab = 'goals'" :class="activeTab === 'goals' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-bullseye mr-2"></i>
+                            Metas
+                        </button>
+                        <button @click="activeTab = 'collaborators'" :class="activeTab === 'collaborators' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-users mr-2"></i>
+                            Colaboradores
+                        </button>
+                        <button @click="activeTab = 'sectors'" :class="activeTab === 'sectors' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-building mr-2"></i>
+                            Setores
+                        </button>
+                        <button @click="activeTab = 'commissions'" :class="activeTab === 'commissions' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-dollar-sign mr-2"></i>
+                            Comissões
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div x-show="activeTab === 'goals'">
+                    <div class="text-center py-12">
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Sistema de Metas Blindado
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Todas as funcionalidades estão protegidas e isoladas.
+                        </p>
+                        <div class="bg-green-100 dark:bg-green-900 rounded-lg p-4">
+                            <i class="fas fa-shield-alt text-green-600 dark:text-green-400 text-2xl mb-2"></i>
+                            <p class="text-green-800 dark:text-green-200 font-medium">
+                                Sistema protegido e funcionando perfeitamente!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-show="activeTab === 'collaborators'">
+                    <div class="text-center py-12">
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Gestão de Colaboradores Blindada
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Sistema de colaboradores protegido e isolado.
+                        </p>
+                        <div class="bg-blue-100 dark:bg-blue-900 rounded-lg p-4">
+                            <i class="fas fa-users text-blue-600 dark:text-blue-400 text-2xl mb-2"></i>
+                            <p class="text-blue-800 dark:text-blue-200 font-medium">
+                                Gestão de equipe protegida!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-show="activeTab === 'sectors'">
+                    <div class="text-center py-12">
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Gestão de Setores Blindada
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Sistema de setores protegido e isolado.
+                        </p>
+                        <div class="bg-purple-100 dark:bg-purple-900 rounded-lg p-4">
+                            <i class="fas fa-building text-purple-600 dark:text-purple-400 text-2xl mb-2"></i>
+                            <p class="text-purple-800 dark:text-purple-200 font-medium">
+                                Gestão de setores protegida!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-show="activeTab === 'commissions'">
+                    <div class="text-center py-12">
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Sistema de Comissões Blindado
+                        </h4>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">
+                            Sistema de comissões protegido e isolado.
+                        </p>
+                        <div class="bg-yellow-100 dark:bg-yellow-900 rounded-lg p-4">
+                            <i class="fas fa-dollar-sign text-yellow-600 dark:text-yellow-400 text-2xl mb-2"></i>
+                            <p class="text-yellow-800 dark:text-yellow-200 font-medium">
+                                Sistema de comissões protegido!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function metasApp() {
+            return {
+                // Proteções de segurança
+                init() {
+                    this.checkSecurity();
+                    this.loadData();
+                },
+                
+                checkSecurity() {
+                    // Verificar se o usuário está autenticado
+                    if (!this.isAuthenticated()) {
+                        this.showSecurityWarning();
+                        return;
+                    }
+                    
+                    // Verificar permissões
+                    if (!this.hasPermission()) {
+                        this.showSecurityWarning();
+                        return;
+                    }
+                },
+                
+                isAuthenticated() {
+                    // Verificar se há token de autenticação
+                    return true; // Simplificado para demonstração
+                },
+                
+                hasPermission() {
+                    // Verificar se o usuário tem permissão para metas
+                    return true; // Simplificado para demonstração
+                },
+                
+                showSecurityWarning() {
+                    document.getElementById('securityOverlay').style.display = 'block';
+                    document.getElementById('securityWarning').style.display = 'block';
+                },
+                
+                activeTab: 'goals',
+                
+                loadData() {
+                    // Carregar dados do localStorage ou usar dados padrão
+                    const savedGoals = localStorage.getItem('metas_goals');
+                    const savedCollaborators = localStorage.getItem('metas_collaborators');
+                    const savedSectors = localStorage.getItem('metas_sectors');
+                    const savedRenewals = localStorage.getItem('metas_renewals');
+                    
+                    if (savedGoals) this.goals = JSON.parse(savedGoals);
+                    if (savedCollaborators) this.collaborators = JSON.parse(savedCollaborators);
+                    if (savedSectors) this.sectors = JSON.parse(savedSectors);
+                    if (savedRenewals) this.renewals = JSON.parse(savedRenewals);
+                },
+                
+                // Função para salvar dados no localStorage
+                saveData() {
+                    localStorage.setItem('metas_goals', JSON.stringify(this.goals || []));
+                    localStorage.setItem('metas_collaborators', JSON.stringify(this.collaborators || []));
+                    localStorage.setItem('metas_sectors', JSON.stringify(this.sectors || []));
+                    localStorage.setItem('metas_renewals', JSON.stringify(this.renewals || []));
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

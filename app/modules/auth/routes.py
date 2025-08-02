@@ -77,7 +77,7 @@ def admin_users():
         return redirect(url_for("main.index"))
     
     users = auth_service.get_all_users()
-    return render_template("admin_users.html", users=users)
+    return render_template("admin_users.html", users=users, active_page="users")
 
 
 @auth_bp.route("/api/users", methods=["GET"])

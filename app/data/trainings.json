@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "id": "technical",
+      "name": "Treinamentos Técnicos",
+      "description": "Capacitações técnicas e operacionais",
+      "icon": "fas fa-cogs",
+      "color": "blue",
+      "trainings_count": 5
+    },
+    {
+      "id": "sales",
+      "name": "Vendas e Atendimento",
+      "description": "Técnicas de vendas e atendimento ao cliente",
+      "icon": "fas fa-handshake",
+      "color": "green",
+      "trainings_count": 3
+    },
+    {
+      "id": "safety",
+      "name": "Segurança e Procedimentos",
+      "description": "Protocolos de segurança e procedimentos internos",
+      "icon": "fas fa-shield-alt",
+      "color": "red",
+      "trainings_count": 4
+    },
+    {
+      "id": "leadership",
+      "name": "Liderança e Gestão",
+      "description": "Desenvolvimento de habilidades de liderança",
+      "icon": "fas fa-users-cog",
+      "color": "purple",
+      "trainings_count": 2
+    }
+  ],
+  "trainings": [
+    {
+      "id": "aa0bf654-3701-4a50-8092-e5fce454fbe6",
+      "title": "Vendas comercial",
+      "description": "esse é um treinamento do novo formato de vendas da nossa empresa",
+      "category": "sales",
+      "duration": 10,
+      "difficulty": "beginner",
+      "instructor": "Matheus",
+      "materials": [
+        "teste_apresentacao.pdf"
+      ],
+      "video_url": "https://www.youtube.com/watch?v=Fa4_P7_f7L0",
+      "completion_rate": 0.0,
+      "participants_count": 0,
+      "is_active": true,
+      "created_at": "2025-08-01T21:48:19.873356",
+      "updated_at": "2025-08-01T21:48:19.873369"
+    }
+  ],
+  "progress": [
+    {
+      "user_id": "1",
+      "training_id": "1",
+      "progress_percentage": 75.0,
+      "completed_modules": [
+        "modulo1",
+        "modulo2"
+      ],
+      "started_at": "2024-01-16T10:00:00Z",
+      "completed_at": null,
+      "certificate_url": null
+    },
+    {
+      "user_id": "1",
+      "training_id": "2",
+      "progress_percentage": 100.0,
+      "completed_modules": [
+        "modulo1",
+        "modulo2",
+        "modulo3"
+      ],
+      "started_at": "2024-01-11T09:00:00Z",
+      "completed_at": "2024-01-20T16:00:00Z",
+      "certificate_url": "https://example.com/certificado.pdf"
+    },
+    {
+      "user_id": "admin-001",
+      "training_id": "aa0bf654-3701-4a50-8092-e5fce454fbe6",
+      "progress_percentage": 100,
+      "completed_modules": [
+        "completed"
+      ],
+      "started_at": "2025-08-01T22:14:51.085446",
+      "completed_at": "now",
+      "certificate_url": null
+    }
+  ]
+}

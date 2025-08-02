@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bruna-001",
+    "username": "bruna",
+    "name": "Bruna Silva",
+    "email": "bruna@velozfibra.com",
+    "password_hash": "pbkdf2:sha256:600000$kVTml0jFnKGnRP9r$68d165e1e5b581a02c601f3a80c430a6fc8116c4d173caf8b93eb2ff9592d492",
+    "role": "admin",
+    "created_at": "2025-07-23T10:36:39.763526",
+    "last_login": "2025-08-01T14:09:49.322874",
+    "is_active": true,
+    "updated_at": "2025-08-01T14:09:49.322882"
+  },
+  {
+    "id": "admin-001",
+    "username": "admin",
+    "name": "Matheus Gallina",
+    "email": "matheus@velozfibra.com",
+    "password_hash": "pbkdf2:sha256:600000$Z4NanPPWFWCOxDqk$5744a50d400a437b1d75e7db03457939b631220be986571f931437b2e828649d",
+    "role": "admin",
+    "created_at": "2025-07-25T12:55:56.968465",
+    "updated_at": "2025-08-01T14:45:35.853692",
+    "last_login": "2025-08-01T14:45:35.853683",
+    "is_active": true
+  }
+]

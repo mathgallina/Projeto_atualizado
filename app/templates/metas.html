@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Metas - VELOZ FIBRA</title>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .animate-scale-in { animation: scaleIn 0.5s ease-out; }
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-delay-500 { animation-delay: 0.5s; }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .gradient-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-success { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .gradient-warning { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .gradient-info { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 font-poppins">
+    <div x-data="metasApp()" class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="history.back()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                            <i class="fas fa-arrow-left text-xl"></i>
+                        </button>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                                <i class="fas fa-bullseye text-blue-500 mr-3"></i>
+                                Sistema de Metas
+                            </h1>
+                            <p class="text-gray-600 dark:text-gray-300">Gerencie metas e performance da equipe</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Welcome Section -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    Bem-vindo ao seu Dashboard
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    Gerencie suas metas, equipe e projetos de forma eficiente
+                </p>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-100 cursor-pointer" @click="activeTab = 'goals'">
+                    <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-bullseye text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Sistema de Metas
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Gerencie metas e acompanhe o desempenho da sua equipe
+                    </p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-200 cursor-pointer" @click="activeTab = 'collaborators'">
+                    <div class="w-16 h-16 gradient-success rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Gestão de Equipe
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Organize e gerencie informações da sua equipe
+                    </p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-300 cursor-pointer" @click="activeTab = 'commissions'">
+                    <div class="w-16 h-16 gradient-warning rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-chart-bar text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Relatórios
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Visualize métricas e relatórios de desempenho
+                    </p>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center card-hover animate-scale-in animate-delay-400 cursor-pointer" @click="activeTab = 'sectors'">
+                    <div class="w-16 h-16 gradient-info rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <i class="fas fa-cog text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                        Configurações
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Ajuste as configurações do sistema
+                    </p>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2" x-text="goals.filter(g => g.status === 'in_progress').length"></div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Metas Ativas</div>
+                    <div class="text-xs text-green-600 dark:text-green-400 mt-1" x-text="goals.filter(g => g.status === 'completed').length + ' concluídas'"></div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2" x-text="collaborators.filter(c => c.status === 'ativo').length"></div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Colaboradores</div>
+                    <div class="text-xs text-blue-600 dark:text-blue-400 mt-1" x-text="collaborators.length + ' total'"></div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2" x-text="calculatePerformance() + '%'"></div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Performance</div>
+                    <div class="text-xs text-yellow-600 dark:text-yellow-400 mt-1" x-text="sectors.length + ' setores'"></div>
+                </div>
+            </div>
+
+            <!-- System Management Section -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                        Gestão do Sistema
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Gerencie colaboradores, setores e acompanhe o progresso das metas
+                    </p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="border-b border-gray-200/50 dark:border-gray-700/50 mb-8">
+                    <nav class="flex space-x-8">
+                        <button @click="activeTab = 'goals'" :class="activeTab === 'goals' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-bullseye mr-2"></i>
+                            Metas
+                        </button>
+                        <button @click="activeTab = 'collaborators'" :class="activeTab === 'collaborators' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-users mr-2"></i>
+                            Colaboradores
+                        </button>
+                        <button @click="activeTab = 'sectors'" :class="activeTab === 'sectors' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-building mr-2"></i>
+                            Setores
+                        </button>
+                        <button @click="activeTab = 'commissions'" :class="activeTab === 'commissions' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors">
+                            <i class="fas fa-dollar-sign mr-2"></i>
+                            Comissões
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div x-show="activeTab === 'goals'">
+                    <div class="space-y-6">
+                        <h3 class="text-lg font-semibold flex items-center">
+                            <i class="fas fa-bullseye text-blue-500 mr-2"></i>
+                            <span x-text="editingGoal ? 'Editar Meta' : 'Gerenciar Metas'"></span>
+                        </h3>
+                        
+                        <!-- Cadastrar Nova Meta -->
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                            <h4 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-plus text-blue-500 mr-2"></i>
+                                Cadastrar Nova Meta
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Título da Meta *
+                                        </label>
+                                        <input type="text" x-model="newGoal.title" placeholder="Digite o título da meta" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Descrição
+                                        </label>
+                                        <textarea x-model="newGoal.description" placeholder="Descreva os detalhes da meta" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Setor *
+                                        </label>
+                                        <select x-model="newGoal.sectorId" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="">Selecione o setor</option>
+                                            <template x-for="sector in sectors" :key="sector.id">
+                                                <option :value="sector.id" x-text="sector.name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                Tipo de Meta
+                                            </label>
+                                            <select x-model="newGoal.type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                <option value="">Selecione o tipo</option>
+                                                <option value="vendas">Vendas</option>
+                                                <option value="renovacao">Renovação</option>
+                                                <option value="atendimento">Atendimento</option>
+                                                <option value="qualidade">Qualidade</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                Prioridade
+                                            </label>
+                                            <select x-model="newGoal.priority" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                <option value="">Selecione a prioridade</option>
+                                                <option value="baixa">Baixa</option>
+                                                <option value="media">Média</option>
+                                                <option value="alta">Alta</option>
+                                                <option value="critica">Crítica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Valor/Meta Alvo
+                                        </label>
+                                        <input type="text" x-model="newGoal.target" placeholder="Ex: R$ 100.000, 50 vendas, 80%" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <button x-show="editingGoal" @click="cancelGoalEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                    Cancelar
+                                </button>
+                                <button @click="addGoal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    <span x-text="editingGoal ? 'Atualizar Meta' : 'Nova Meta'"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Lista de Metas -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h4 class="text-lg font-semibold">Metas Ativas</h4>
+                            </div>
+                            <div class="p-6">
+                                <div class="space-y-4">
+                                    <template x-for="goal in goals" :key="goal.id">
+                                        <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex-1">
+                                                    <div class="flex items-center space-x-3">
+                                                        <div class="w-3 h-3 rounded-full" :class="{
+                                                            'bg-green-500': goal.status === 'completed',
+                                                            'bg-yellow-500': goal.status === 'in_progress',
+                                                            'bg-red-500': goal.status === 'overdue'
+                                                        }"></div>
+                                                        <div>
+                                                            <h5 class="font-medium text-gray-900 dark:text-gray-100" x-text="goal.title"></h5>
+                                                            <p class="text-sm text-gray-500 dark:text-gray-400" x-text="goal.description"></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                                                        <span x-text="'Setor: ' + getSectorName(goal.sectorId)"></span>
+                                                        <span x-text="'Tipo: ' + goal.type"></span>
+                                                        <span x-text="'Prioridade: ' + goal.priority"></span>
+                                                        <span x-text="'Meta: ' + goal.target"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center space-x-2">
+                                                    <div class="text-right mr-4">
+                                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="goal.progress + '%'"></div>
+                                                        <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                                                            <div class="bg-blue-600 h-2 rounded-full" :style="'width: ' + goal.progress + '%'"></div>
+                                                        </div>
+                                                    </div>
+                                                    <button @click="viewGoal(goal)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300" title="Visualizar">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button @click="editGoal(goal)" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-2" title="Editar">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button @click="deleteGoal(goal.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" title="Excluir">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção de Colaboradores -->
+                <div x-show="activeTab === 'collaborators'">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold flex items-center">
+                                <i class="fas fa-users text-blue-500 mr-2"></i>
+                                Gerenciar Colaboradores
+                            </h3>
+                            <button @click="showCollaboratorForm = true" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                                <i class="fas fa-plus mr-2"></i>
+                                Novo Colaborador
+                            </button>
+                        </div>
+                        
+                        <!-- Formulário de Cadastro -->
+                        <div x-show="showCollaboratorForm" class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                            <h4 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-user-plus text-blue-500 mr-2"></i>
+                                <span x-text="editingCollaborator ? 'Editar Colaborador' : 'Cadastrar Novo Colaborador'"></span>
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Nome Completo *
+                                        </label>
+                                        <input type="text" x-model="newCollaborator.name" placeholder="Digite o nome completo" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            E-mail *
+                                        </label>
+                                        <input type="email" x-model="newCollaborator.email" placeholder="exemplo@empresa.com" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Cargo
+                                        </label>
+                                        <input type="text" x-model="newCollaborator.position" placeholder="Ex: Analista, Gerente, Coordenador" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Setor *
+                                        </label>
+                                        <select x-model="newCollaborator.sectorId" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="">Selecione o setor</option>
+                                            <template x-for="sector in sectors" :key="sector.id">
+                                                <option :value="sector.id" x-text="sector.name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Telefone
+                                        </label>
+                                        <input type="text" x-model="newCollaborator.phone" placeholder="(11) 99999-9999" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Status
+                                        </label>
+                                        <select x-model="newCollaborator.status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="ativo">Ativo</option>
+                                            <option value="inativo">Inativo</option>
+                                            <option value="ferias">Férias</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <button @click="cancelCollaboratorEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                    Cancelar
+                                </button>
+                                <button @click="addCollaborator()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    <span x-text="editingCollaborator ? 'Atualizar Colaborador' : 'Cadastrar Colaborador'"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Lista de Colaboradores -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h4 class="text-lg font-semibold">Colaboradores Cadastrados</h4>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nome</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">E-mail</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cargo</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Setor</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                        <template x-for="collaborator in collaborators" :key="collaborator.id">
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="collaborator.name"></div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="collaborator.email"></div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="collaborator.position"></div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="getSectorName(collaborator.sectorId)"></div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
+                                                        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': collaborator.status === 'ativo',
+                                                        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': collaborator.status === 'inativo',
+                                                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': collaborator.status === 'ferias'
+                                                    }" x-text="collaborator.status"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                    <button @click="editCollaborator(collaborator)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button @click="deleteCollaborator(collaborator.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção de Setores -->
+                <div x-show="activeTab === 'sectors'">
+                    <div class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold flex items-center">
+                                <i class="fas fa-building text-blue-500 mr-2"></i>
+                                Gerenciar Setores
+                            </h3>
+                            <button @click="showSectorForm = true" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                                <i class="fas fa-plus mr-2"></i>
+                                Novo Setor
+                            </button>
+                        </div>
+                        
+                        <!-- Formulário de Cadastro -->
+                        <div x-show="showSectorForm" class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                            <h4 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-building text-blue-500 mr-2"></i>
+                                <span x-text="editingSector ? 'Editar Setor' : 'Cadastrar Novo Setor'"></span>
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Nome do Setor *
+                                        </label>
+                                        <input type="text" x-model="newSector.name" placeholder="Ex: Vendas, Marketing, Tecnologia" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Gerente/Responsável *
+                                        </label>
+                                        <input type="text" x-model="newSector.manager" placeholder="Nome do responsável pelo setor" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Orçamento
+                                        </label>
+                                        <input type="text" x-model="newSector.budget" placeholder="Ex: R$ 100.000" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Localização
+                                        </label>
+                                        <input type="text" x-model="newSector.location" placeholder="Ex: Andar 2 - Sala 201" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Status
+                                        </label>
+                                        <select x-model="newSector.status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <option value="ativo">Ativo</option>
+                                            <option value="inativo">Inativo</option>
+                                            <option value="em_reestruturacao">Em Reestruturação</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Descrição
+                                        </label>
+                                        <textarea x-model="newSector.description" placeholder="Descreva as responsabilidades e objetivos do setor" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end space-x-3">
+                                <button @click="cancelSectorEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                    Cancelar
+                                </button>
+                                <button @click="addSector()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    <span x-text="editingSector ? 'Atualizar Setor' : 'Cadastrar Setor'"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Lista de Setores -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <template x-for="sector in sectors" :key="sector.id">
+                                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                                    <div class="flex justify-between items-start mb-4">
+                                        <h5 class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-text="sector.name"></h5>
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" :class="{
+                                            'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200': sector.status === 'ativo',
+                                            'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': sector.status === 'inativo',
+                                            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': sector.status === 'em_reestruturacao'
+                                        }" x-text="sector.status"></span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4" x-text="sector.description"></p>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-user mr-2"></i>
+                                            <span x-text="'Gerente: ' + sector.manager"></span>
+                                        </div>
+                                        <div class="flex items-center text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-users mr-2"></i>
+                                            <span x-text="getCollaboratorsBySector(sector.id).length + ' colaboradores'"></span>
+                                        </div>
+                                        <div x-show="sector.budget" class="flex items-center text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-dollar-sign mr-2"></i>
+                                            <span x-text="sector.budget"></span>
+                                        </div>
+                                        <div x-show="sector.location" class="flex items-center text-gray-500 dark:text-gray-400">
+                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                            <span x-text="sector.location"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 flex justify-end space-x-2">
+                                        <button @click="editSector(sector)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button @click="deleteSector(sector.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção de Comissões -->
+                <div x-show="activeTab === 'commissions'">
+                    <div class="space-y-6">
+                        <!-- Header do Sistema de Comissões -->
+                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-2xl font-bold mb-2">$ Sistema de Comissões</h3>
+                                    <p class="text-blue-100">Veloz Fibra - Gestão flexível de comissões por setor</p>
+                                </div>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    Ativo
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Cards de Estatísticas -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">R$ 3,00</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Comissão por Renovação</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">100</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Meta Mensal</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">12</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Total de Renovações</div>
+                            </div>
+                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">R$ 179,00</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Total Comissões</div>
+                            </div>
+                        </div>
+
+                        <!-- Regras de Comissão -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                            <h4 class="text-lg font-semibold mb-4 flex items-center">
+                                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                                Sistema Flexível de Comissões
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-3">
+                                    <h5 class="font-medium text-gray-900 dark:text-gray-100">Tipos de Comissão</h5>
+                                    <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                        <li>• <strong>Renovação:</strong> R$ 3,00 por renovação + upgrade</li>
+                                        <li>• <strong>Suporte:</strong> Bonificação por atendimentos</li>
+                                        <li>• <strong>Vendas:</strong> Comissão por vendas realizadas</li>
+                                        <li>• <strong>Marketing:</strong> Bônus por leads gerados</li>
+                                        <li>• <strong>Qualidade:</strong> Incentivo por avaliações</li>
+                                    </ul>
+                                </div>
+                                <div class="space-y-3">
+                                    <h5 class="font-medium text-gray-900 dark:text-gray-100">Configuração Flexível</h5>
+                                    <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                                        <li>• Defina metas específicas por setor</li>
+                                        <li>• Configure valores de comissão personalizados</li>
+                                        <li>• Estabeleça critérios de bonificação</li>
+                                        <li>• Acompanhe performance por colaborador</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabs de Comissões -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+                            <div class="border-b border-gray-200 dark:border-gray-700">
+                                <nav class="flex space-x-8 px-6">
+                                    <button @click="commissionTab = 'register'" :class="commissionTab === 'register' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        Registrar
+                                    </button>
+                                    <button @click="commissionTab = 'individual'" :class="commissionTab === 'individual' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Individual
+                                    </button>
+                                    <button @click="commissionTab = 'reports'" :class="commissionTab === 'reports' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                                        <i class="fas fa-chart-bar mr-2"></i>
+                                        Relatórios
+                                    </button>
+                                    <button @click="commissionTab = 'overview'" :class="commissionTab === 'overview' ? 'border-blue-500 text-blue-600 dark:text-blue-400' : 'border-transparent text-gray-500 dark:text-gray-400'" class="py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                                        <i class="fas fa-eye mr-2"></i>
+                                        Visão Geral
+                                    </button>
+                                </nav>
+                            </div>
+
+                            <!-- Conteúdo das Tabs -->
+                            <div class="p-6">
+                                <!-- Tab Registrar -->
+                                <div x-show="commissionTab === 'register'">
+                                    <div class="space-y-6">
+                                        <h4 class="text-lg font-semibold flex items-center">
+                                            <i class="fas fa-plus text-blue-500 mr-2"></i>
+                                            <span x-text="editingRenewal ? 'Editar Registro' : 'Registrar Nova Comissão'"></span>
+                                        </h4>
+                                        
+                                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div class="space-y-4">
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Colaborador Responsável *
+                                                        </label>
+                                                        <select x-model="newRenewal.collaboratorId" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                            <option value="">Selecione o colaborador</option>
+                                                            <template x-for="collaborator in collaborators" :key="collaborator.id">
+                                                                <option :value="collaborator.id" x-text="collaborator.name"></option>
+                                                            </template>
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Tipo de Comissão *
+                                                        </label>
+                                                        <select x-model="newRenewal.commissionType" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                            <option value="">Selecione o tipo</option>
+                                                            <option value="renovacao">Renovação</option>
+                                                            <option value="suporte">Suporte Técnico</option>
+                                                            <option value="vendas">Vendas</option>
+                                                            <option value="marketing">Marketing</option>
+                                                            <option value="qualidade">Qualidade</option>
+                                                            <option value="outro">Outro</option>
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Descrição da Atividade *
+                                                        </label>
+                                                        <input type="text" x-model="newRenewal.clientName" placeholder="Ex: Atendimento cliente, Venda realizada, Lead gerado" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Código/Referência
+                                                        </label>
+                                                        <input type="text" x-model="newRenewal.contractNumber" placeholder="Ex: VF202401001, AT001, VEN001" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                    </div>
+                                                </div>
+                                                <div class="space-y-4">
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Data da Atividade *
+                                                        </label>
+                                                        <input type="date" x-model="newRenewal.renewalDate" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Valor Base (R$)
+                                                        </label>
+                                                        <input type="number" x-model="newRenewal.previousPlanValue" placeholder="0.00" step="0.01" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                            Valor Adicional (R$)
+                                                        </label>
+                                                        <input type="number" x-model="newRenewal.newPlanValue" placeholder="0.00" step="0.01" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-6 flex justify-end space-x-3">
+                                                <button x-show="editingRenewal" @click="cancelRenewalEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                                    Cancelar
+                                                </button>
+                                                <button @click="registerRenewal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                                    <i class="fas fa-plus mr-2"></i>
+                                                    <span x-text="editingRenewal ? 'Atualizar Registro' : 'Registrar Comissão'"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Individual -->
+                                <div x-show="commissionTab === 'individual'">
+                                    <div class="space-y-6">
+                                        <h4 class="text-lg font-semibold flex items-center">
+                                            <i class="fas fa-user text-blue-500 mr-2"></i>
+                                            Painel Individual
+                                        </h4>
+                                        
+                                        <!-- Filtros -->
+                                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                        Colaborador
+                                                    </label>
+                                                    <select x-model="selectedCollaborator" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                        <option value="">Selecione o colaborador</option>
+                                                        <template x-for="collaborator in collaborators" :key="collaborator.id">
+                                                            <option :value="collaborator.id" x-text="collaborator.name"></option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                        Mês
+                                                    </label>
+                                                    <select x-model="selectedMonth" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                        <template x-for="month in months" :key="month.value">
+                                                            <option :value="month.value" x-text="month.label"></option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                        Ano
+                                                    </label>
+                                                    <input type="number" x-model="selectedYear" min="2020" max="2030" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cards de Performance -->
+                                        <div x-show="selectedCollaborator" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2" x-text="getCollaboratorStats().renewals"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Renovações</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2" x-text="formatCurrency(getCollaboratorStats().fixedCommission)"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Comissão Fixa</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2" x-text="formatCurrency(getCollaboratorStats().upgradeCommission)"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Comissão Upgrade</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2" x-text="formatCurrency(getCollaboratorStats().totalCommission)"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Total</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tabela de Renovações -->
+                                        <div x-show="selectedCollaborator" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                                <h5 class="text-lg font-semibold">Renovações do Período</h5>
+                                            </div>
+                                            <div class="overflow-x-auto">
+                                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                                        <tr>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Atividade</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Código</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Data</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valor Anterior</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Novo Valor</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Upgrade</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Comissão</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Ações</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                                        <template x-for="renewal in getCollaboratorRenewals()" :key="renewal.id">
+                                                            <tr>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="renewal.clientName"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="renewal.contractNumber"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="renewal.commissionType"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="formatDate(renewal.renewalDate)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="formatCurrency(renewal.previousPlan.value)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="formatCurrency(renewal.newPlan.value)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="formatCurrency(renewal.upgradeValue)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm font-medium text-green-600 dark:text-green-400" x-text="formatCurrency(renewal.commissionValue)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                    <button @click="viewRenewal(renewal)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-2" title="Visualizar">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+                                                                    <button @click="editRenewal(renewal)" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-2" title="Editar">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </button>
+                                                                    <button @click="deleteRenewal(renewal.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" title="Excluir">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Relatórios -->
+                                <div x-show="commissionTab === 'reports'">
+                                    <div class="space-y-6">
+                                        <h4 class="text-lg font-semibold flex items-center">
+                                            <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
+                                            Relatórios Mensais
+                                        </h4>
+                                        
+                                        <!-- Filtros -->
+                                        <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                        Mês
+                                                    </label>
+                                                    <select x-model="reportMonth" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                        <template x-for="month in months" :key="month.value">
+                                                            <option :value="month.value" x-text="month.label"></option>
+                                                        </template>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                                        Ano
+                                                    </label>
+                                                    <input type="number" x-model="reportYear" min="2020" max="2030" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Resumo -->
+                                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2" x-text="getMonthlyReport().totalRenewals"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Total Renovações</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2" x-text="formatCurrency(getMonthlyReport().totalCommissions)"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Total Comissões</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2" x-text="getMonthlyReport().activeCollaborators"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Colaboradores Ativos</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2" x-text="formatCurrency(getMonthlyReport().averageGoal)"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Meta Média</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tabela de Performance -->
+                                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                                <h5 class="text-lg font-semibold">Performance por Colaborador</h5>
+                                            </div>
+                                            <div class="overflow-x-auto">
+                                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                                        <tr>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Colaborador</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Renovações</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Comissão Fixa</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Comissão Upgrade</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Total</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Meta</th>
+                                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">%</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                                        <template x-for="collaborator in collaborators" :key="collaborator.id">
+                                                            <tr>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="collaborator.name"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="getCollaboratorRenewalsCount(collaborator.id)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="formatCurrency(getCollaboratorRenewalsCount(collaborator.id) * 3)"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="formatCurrency(getCollaboratorUpgradeCommission(collaborator.id))"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm font-medium text-green-600 dark:text-green-400" x-text="formatCurrency(getCollaboratorTotalCommission(collaborator.id))"></div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400">100</div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="Math.round((getCollaboratorRenewalsCount(collaborator.id) / 100) * 100) + '%'"></div>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Visão Geral -->
+                                <div x-show="commissionTab === 'overview'">
+                                    <div class="space-y-6">
+                                        <h4 class="text-lg font-semibold flex items-center">
+                                            <i class="fas fa-eye text-blue-500 mr-2"></i>
+                                            Visão Geral do Sistema
+                                        </h4>
+                                        
+                                        <!-- Cards de Estatísticas Gerais -->
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2" x-text="getTotalRenewals()"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Total de Renovações</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2" x-text="formatCurrency(getTotalCommissions())"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Comissões Pagas</div>
+                                            </div>
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
+                                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2" x-text="formatCurrency(getTotalUpgrades())"></div>
+                                                <div class="text-sm text-gray-600 dark:text-gray-400">Valor em Upgrades</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Colaboradores Ativos -->
+                                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                                            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                                <h5 class="text-lg font-semibold">Colaboradores Ativos</h5>
+                                            </div>
+                                            <div class="p-6">
+                                                <div class="space-y-4">
+                                                    <template x-for="collaborator in collaborators" :key="collaborator.id">
+                                                        <div class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                                                            <div class="flex items-center space-x-3">
+                                                                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                                                                    <i class="fas fa-user text-blue-600 dark:text-blue-400"></i>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="font-medium text-gray-900 dark:text-gray-100" x-text="collaborator.name"></div>
+                                                                    <div class="text-sm text-gray-500 dark:text-gray-400" x-text="collaborator.position"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="getCollaboratorRenewalsCount(collaborator.id) + ' renovações'"></div>
+                                                                <div class="text-sm text-green-600 dark:text-green-400" x-text="formatCurrency(getCollaboratorTotalCommission(collaborator.id))"></div>
+                                                            </div>
+                                                            <button @click="selectCollaboratorFromOverview(collaborator.id)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                                                                <i class="fas fa-eye"></i>
+                                                            </button>
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Modal de Visualização de Meta -->
+        <div x-show="viewingGoal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="viewingGoal = null">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-2xl w-full mx-4">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Detalhes da Meta</h3>
+                        <button @click="viewingGoal = null" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6" x-show="viewingGoal">
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2" x-text="viewingGoal.title"></h4>
+                            <p class="text-gray-600 dark:text-gray-400" x-text="viewingGoal.description"></p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Informações</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Setor:</span>
+                                        <span class="font-medium" x-text="getSectorName(viewingGoal.sectorId)"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Tipo:</span>
+                                        <span class="font-medium" x-text="viewingGoal.type"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Prioridade:</span>
+                                        <span class="font-medium" x-text="viewingGoal.priority"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Meta Alvo:</span>
+                                        <span class="font-medium" x-text="viewingGoal.target"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Status:</span>
+                                        <span class="font-medium" x-text="viewingGoal.status"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Progresso</h5>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Progresso Atual</span>
+                                        <span class="text-lg font-bold text-blue-600 dark:text-blue-400" x-text="viewingGoal.progress + '%'"></span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+                                        <div class="bg-blue-600 h-3 rounded-full transition-all duration-300" :style="'width: ' + viewingGoal.progress + '%'"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 text-center">
+                                        <span x-text="viewingGoal.progress + '% concluído'"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button @click="viewingGoal = null" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                Fechar
+                            </button>
+                            <button @click="editGoal(viewingGoal); viewingGoal = null" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-edit mr-2"></i>
+                                Editar Meta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de Visualização de Renovação -->
+        <div x-show="viewingRenewal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="viewingRenewal = null">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-2xl w-full mx-4">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Detalhes da Renovação</h3>
+                        <button @click="viewingRenewal = null" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6" x-show="viewingRenewal">
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2" x-text="viewingRenewal.clientName"></h4>
+                            <p class="text-gray-600 dark:text-gray-400" x-text="'Contrato: ' + viewingRenewal.contractNumber"></p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Informações da Renovação</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Colaborador:</span>
+                                        <span class="font-medium" x-text="viewingRenewal.collaboratorName"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Data:</span>
+                                        <span class="font-medium" x-text="formatDate(viewingRenewal.renewalDate)"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Status:</span>
+                                        <span class="font-medium" x-text="viewingRenewal.status"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Pagamento:</span>
+                                        <span class="font-medium" x-text="viewingRenewal.paymentStatus"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                <h5 class="font-semibold text-gray-900 dark:text-gray-100 mb-2">Valores e Comissões</h5>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Plano Anterior:</span>
+                                        <span class="font-medium" x-text="formatCurrency(viewingRenewal.previousPlan.value)"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Novo Plano:</span>
+                                        <span class="font-medium" x-text="formatCurrency(viewingRenewal.newPlan.value)"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Upgrade:</span>
+                                        <span class="font-medium" x-text="formatCurrency(viewingRenewal.upgradeValue)"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600 dark:text-gray-400">Comissão Total:</span>
+                                        <span class="font-medium text-green-600 dark:text-green-400" x-text="formatCurrency(viewingRenewal.commissionValue)"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-3 pt-4">
+                            <button @click="viewingRenewal = null" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                Fechar
+                            </button>
+                            <button @click="editRenewal(viewingRenewal); viewingRenewal = null" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-edit mr-2"></i>
+                                Editar Renovação
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function metasApp() {
+            return {
+                // Carregar dados do localStorage ou usar dados padrão
+                init() {
+                    // Carregar dados salvos
+                    const savedGoals = localStorage.getItem('metas_goals');
+                    const savedCollaborators = localStorage.getItem('metas_collaborators');
+                    const savedSectors = localStorage.getItem('metas_sectors');
+                    const savedRenewals = localStorage.getItem('metas_renewals');
+                    
+                    if (savedGoals) this.goals = JSON.parse(savedGoals);
+                    if (savedCollaborators) this.collaborators = JSON.parse(savedCollaborators);
+                    if (savedSectors) this.sectors = JSON.parse(savedSectors);
+                    if (savedRenewals) this.renewals = JSON.parse(savedRenewals);
+                },
+                activeTab: 'goals',
+                commissionTab: 'register',
+                showCollaboratorForm: false,
+                showSectorForm: false,
+                editingCollaborator: null,
+                editingSector: null,
+                editingGoal: null,
+                viewingGoal: null,
+                editingRenewal: null,
+                viewingRenewal: null,
+                selectedCollaborator: '',
+                selectedMonth: new Date().getMonth() + 1,
+                selectedYear: new Date().getFullYear(),
+                reportMonth: new Date().getMonth() + 1,
+                reportYear: new Date().getFullYear(),
+                newGoal: {
+                    title: '',
+                    description: '',
+                    sectorId: '',
+                    type: '',
+                    priority: '',
+                    target: ''
+                },
+                newCollaborator: {
+                    name: '',
+                    email: '',
+                    sectorId: '',
+                    position: '',
+                    phone: '',
+                    status: 'ativo'
+                },
+                newSector: {
+                    name: '',
+                    description: '',
+                    manager: '',
+                    budget: '',
+                    location: '',
+                    status: 'ativo'
+                },
+                newRenewal: {
+                    collaboratorId: '',
+                    clientName: '',
+                    contractNumber: '',
+                    renewalDate: '',
+                    previousPlanValue: 0,
+                    newPlanValue: 0,
+                    commissionType: ''
+                },
+                goals: [
+                    {
+                        id: '1',
+                        title: 'Meta de Renovações - Janeiro 2024',
+                        description: 'Atingir 100 renovações válidas no mês de janeiro',
+                        sectorId: '1',
+                        type: 'renovacao',
+                        priority: 'alta',
+                        target: '100 renovações',
+                        status: 'in_progress',
+                        progress: 75
+                    },
+                    {
+                        id: '2',
+                        title: 'Meta de Vendas - Q1 2024',
+                        description: 'Aumentar vendas em 20% no primeiro trimestre',
+                        sectorId: '2',
+                        type: 'vendas',
+                        priority: 'critica',
+                        target: 'R$ 500.000',
+                        status: 'in_progress',
+                        progress: 60
+                    },
+                    {
+                        id: '3',
+                        title: 'Meta de Atendimento - Fevereiro',
+                        description: 'Manter satisfação do cliente acima de 90%',
+                        sectorId: '3',
+                        type: 'atendimento',
+                        priority: 'media',
+                        target: '90% satisfação',
+                        status: 'completed',
+                        progress: 95
+                    }
+                ],
+                sectors: [
+                    { id: '1', name: 'Renovação', description: 'Setor responsável por renovações de contratos', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
+                    { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
+                    { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
+                    { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
+                    { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
+                    { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
+                ],
+                collaborators: [
+                    { id: '1', name: 'Carlos Renovação', email: 'carlos@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
+                    { id: '2', name: 'Ana Renovação', email: 'ana@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-2222', status: 'ativo' },
+                    { id: '3', name: 'Pedro Renovação', email: 'pedro@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-3333', status: 'ativo' },
+                    { id: '4', name: 'Maria Renovação', email: 'maria@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-4444', status: 'ativo' },
+                    { id: '5', name: 'João Renovação', email: 'joao@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-5555', status: 'ativo' },
+                    { id: '6', name: 'Lucia Renovação', email: 'lucia@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-6666', status: 'ativo' }
+                ],
+                months: [
+                    { value: 1, label: "Janeiro" },
+                    { value: 2, label: "Fevereiro" },
+                    { value: 3, label: "Março" },
+                    { value: 4, label: "Abril" },
+                    { value: 5, label: "Maio" },
+                    { value: 6, label: "Junho" },
+                    { value: 7, label: "Julho" },
+                    { value: 8, label: "Agosto" },
+                    { value: 9, label: "Setembro" },
+                    { value: 10, label: "Outubro" },
+                    { value: 11, label: "Novembro" },
+                    { value: 12, label: "Dezembro" }
+                ],
+                renewals: [
+                    {
+                        id: 'renewal_1',
+                        collaboratorId: '1',
+                        collaboratorName: 'Carlos Renovação',
+                        clientName: 'João Silva Santos',
+                        contractNumber: 'VF202401001',
+                        renewalDate: '2024-01-15',
+                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
+                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        upgradeValue: 40.00,
+                        commissionValue: 43.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-15T10:30:00Z'
+                    },
+                    {
+                        id: 'renewal_2',
+                        collaboratorId: '1',
+                        collaboratorName: 'Carlos Renovação',
+                        clientName: 'Maria Costa Lima',
+                        contractNumber: 'VF202401002',
+                        renewalDate: '2024-01-16',
+                        previousPlan: { name: 'Fibra 200MB', value: 79.90 },
+                        newPlan: { name: 'Fibra 200MB', value: 79.90 },
+                        upgradeValue: 0,
+                        commissionValue: 3.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-16T14:20:00Z'
+                    },
+                    {
+                        id: 'renewal_3',
+                        collaboratorId: '2',
+                        collaboratorName: 'Ana Renovação',
+                        clientName: 'Pedro Oliveira',
+                        contractNumber: 'VF202401003',
+                        renewalDate: '2024-01-17',
+                        previousPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        newPlan: { name: 'Fibra 1GB + TV', value: 229.90 },
+                        upgradeValue: 130.00,
+                        commissionValue: 133.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-17T09:45:00Z'
+                    },
+                    {
+                        id: 'renewal_4',
+                        collaboratorId: '1',
+                        collaboratorName: 'Carlos Renovação',
+                        clientName: 'Fernando Costa',
+                        contractNumber: 'VF202401004',
+                        renewalDate: '2024-01-18',
+                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
+                        newPlan: { name: 'Fibra 500MB', value: 129.90 },
+                        upgradeValue: 70.00,
+                        commissionValue: 73.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-18T11:15:00Z'
+                    },
+                    {
+                        id: 'renewal_5',
+                        collaboratorId: '3',
+                        collaboratorName: 'Pedro Renovação',
+                        clientName: 'Lucia Mendes',
+                        contractNumber: 'VF202401005',
+                        renewalDate: '2024-01-19',
+                        previousPlan: { name: 'Fibra 200MB', value: 79.90 },
+                        newPlan: { name: 'Fibra 200MB', value: 79.90 },
+                        upgradeValue: 0,
+                        commissionValue: 3.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-19T16:30:00Z'
+                    },
+                    {
+                        id: 'renewal_6',
+                        collaboratorId: '2',
+                        collaboratorName: 'Ana Renovação',
+                        clientName: 'Roberto Almeida',
+                        contractNumber: 'VF202401006',
+                        renewalDate: '2024-01-20',
+                        previousPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        newPlan: { name: 'Fibra 1GB + TV + Telefone', value: 299.90 },
+                        upgradeValue: 200.00,
+                        commissionValue: 203.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-20T09:20:00Z'
+                    },
+                    {
+                        id: 'renewal_7',
+                        collaboratorId: '4',
+                        collaboratorName: 'Maria Renovação',
+                        clientName: 'Carlos Eduardo',
+                        contractNumber: 'VF202401007',
+                        renewalDate: '2024-01-21',
+                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
+                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        upgradeValue: 40.00,
+                        commissionValue: 43.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-21T14:45:00Z'
+                    },
+                    {
+                        id: 'renewal_8',
+                        collaboratorId: '3',
+                        collaboratorName: 'Pedro Renovação',
+                        clientName: 'Amanda Silva',
+                        contractNumber: 'VF202401008',
+                        renewalDate: '2024-01-22',
+                        previousPlan: { name: 'Fibra 500MB', value: 129.90 },
+                        newPlan: { name: 'Fibra 1GB + TV', value: 229.90 },
+                        upgradeValue: 100.00,
+                        commissionValue: 103.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-22T10:10:00Z'
+                    },
+                    {
+                        id: 'renewal_9',
+                        collaboratorId: '5',
+                        collaboratorName: 'João Renovação',
+                        clientName: 'Ricardo Santos',
+                        contractNumber: 'VF202401009',
+                        renewalDate: '2024-01-23',
+                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
+                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        upgradeValue: 40.00,
+                        commissionValue: 43.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-23T13:45:00Z'
+                    },
+                    {
+                        id: 'renewal_10',
+                        collaboratorId: '6',
+                        collaboratorName: 'Lucia Renovação',
+                        clientName: 'Patricia Costa',
+                        contractNumber: 'VF202401010',
+                        renewalDate: '2024-01-24',
+                        previousPlan: { name: 'Fibra 200MB', value: 79.90 },
+                        newPlan: { name: 'Fibra 1GB + TV', value: 229.90 },
+                        upgradeValue: 150.00,
+                        commissionValue: 153.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-24T16:20:00Z'
+                    },
+                    {
+                        id: 'renewal_11',
+                        collaboratorId: '5',
+                        collaboratorName: 'João Renovação',
+                        clientName: 'Marcelo Lima',
+                        contractNumber: 'VF202401011',
+                        renewalDate: '2024-01-25',
+                        previousPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
+                        upgradeValue: 0,
+                        commissionValue: 3.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-25T09:30:00Z'
+                    },
+                    {
+                        id: 'renewal_12',
+                        collaboratorId: '6',
+                        collaboratorName: 'Lucia Renovação',
+                        clientName: 'Fernanda Alves',
+                        contractNumber: 'VF202401012',
+                        renewalDate: '2024-01-26',
+                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
+                        newPlan: { name: 'Fibra 500MB + TV', value: 179.90 },
+                        upgradeValue: 120.00,
+                        commissionValue: 123.00,
+                        status: 'valid',
+                        paymentStatus: 'paid',
+                        createdAt: '2024-01-26T11:15:00Z'
+                    }
+                ],
+
+                // Funções
+                addGoal() {
+                    if (!this.newGoal.title || !this.newGoal.sectorId) {
+                        alert('Por favor, preencha os campos obrigatórios');
+                        return;
+                    }
+                    
+                    const goal = {
+                        id: this.editingGoal ? this.editingGoal.id : Date.now().toString(),
+                        title: this.newGoal.title,
+                        description: this.newGoal.description,
+                        sectorId: this.newGoal.sectorId,
+                        type: this.newGoal.type,
+                        priority: this.newGoal.priority,
+                        target: this.newGoal.target,
+                        status: this.editingGoal ? this.editingGoal.status : 'in_progress',
+                        progress: this.editingGoal ? this.editingGoal.progress : 0
+                    };
+                    
+                    if (this.editingGoal) {
+                        // Atualizar meta existente
+                        const index = this.goals.findIndex(g => g.id === this.editingGoal.id);
+                        if (index !== -1) {
+                            this.goals[index] = goal;
+                        }
+                        this.editingGoal = null;
+                    } else {
+                        // Adicionar nova meta
+                        this.goals.push(goal);
+                    }
+                    
+                    // Limpar formulário
+                    this.newGoal = {
+                        title: '',
+                        description: '',
+                        sectorId: '',
+                        type: '',
+                        priority: '',
+                        target: ''
+                    };
+                    this.saveData();
+                },
+                
+                addCollaborator() {
+                    if (!this.newCollaborator.name || !this.newCollaborator.email || !this.newCollaborator.sectorId) {
+                        alert('Por favor, preencha os campos obrigatórios');
+                        return;
+                    }
+                    
+                    const collaborator = {
+                        id: this.editingCollaborator ? this.editingCollaborator.id : Date.now().toString(),
+                        name: this.newCollaborator.name,
+                        email: this.newCollaborator.email,
+                        sectorId: this.newCollaborator.sectorId,
+                        position: this.newCollaborator.position,
+                        phone: this.newCollaborator.phone,
+                        status: this.newCollaborator.status
+                    };
+                    
+                    if (this.editingCollaborator) {
+                        // Atualizar colaborador existente
+                        const index = this.collaborators.findIndex(c => c.id === this.editingCollaborator.id);
+                        if (index !== -1) {
+                            this.collaborators[index] = collaborator;
+                        }
+                        this.editingCollaborator = null;
+                    } else {
+                        // Adicionar novo colaborador
+                        this.collaborators.push(collaborator);
+                    }
+                    
+                    // Limpar formulário
+                    this.newCollaborator = {
+                        name: '',
+                        email: '',
+                        sectorId: '',
+                        position: '',
+                        phone: '',
+                        status: 'ativo'
+                    };
+                    
+                    this.showCollaboratorForm = false;
+                    this.saveData();
+                },
+                
+                editGoal(goal) {
+                    this.editingGoal = goal;
+                    this.newGoal = {
+                        title: goal.title,
+                        description: goal.description,
+                        sectorId: goal.sectorId,
+                        type: goal.type,
+                        priority: goal.priority,
+                        target: goal.target
+                    };
+                },
+                
+                viewGoal(goal) {
+                    this.viewingGoal = goal;
+                },
+                
+                deleteGoal(goalId) {
+                    if (confirm('Tem certeza que deseja excluir esta meta?')) {
+                        this.goals = this.goals.filter(g => g.id !== goalId);
+                        this.saveData();
+                    }
+                },
+                
+                cancelGoalEdit() {
+                    this.editingGoal = null;
+                    this.newGoal = {
+                        title: '',
+                        description: '',
+                        sectorId: '',
+                        type: '',
+                        priority: '',
+                        target: ''
+                    };
+                },
+                
+                editRenewal(renewal) {
+                    this.editingRenewal = renewal;
+                    this.newRenewal = {
+                        collaboratorId: renewal.collaboratorId,
+                        clientName: renewal.clientName,
+                        contractNumber: renewal.contractNumber,
+                        renewalDate: renewal.renewalDate,
+                        previousPlanValue: renewal.previousPlan.value,
+                        newPlanValue: renewal.newPlan.value,
+                        commissionType: renewal.commissionType || ''
+                    };
+                    this.commissionTab = 'register';
+                },
+                
+                viewRenewal(renewal) {
+                    this.viewingRenewal = renewal;
+                },
+                
+                deleteRenewal(renewalId) {
+                    if (confirm('Tem certeza que deseja excluir esta renovação?')) {
+                        this.renewals = this.renewals.filter(r => r.id !== renewalId);
+                        this.saveData();
+                    }
+                },
+                
+                cancelRenewalEdit() {
+                    this.editingRenewal = null;
+                    this.newRenewal = {
+                        collaboratorId: '',
+                        clientName: '',
+                        contractNumber: '',
+                        renewalDate: '',
+                        previousPlanValue: 0,
+                        newPlanValue: 0,
+                        commissionType: ''
+                    };
+                },
+                
+                editCollaborator(collaborator) {
+                    this.editingCollaborator = collaborator;
+                    this.newCollaborator = {
+                        name: collaborator.name,
+                        email: collaborator.email,
+                        sectorId: collaborator.sectorId,
+                        position: collaborator.position,
+                        phone: collaborator.phone,
+                        status: collaborator.status
+                    };
+                    this.showCollaboratorForm = true;
+                },
+                
+                deleteCollaborator(collaboratorId) {
+                    if (confirm('Tem certeza que deseja excluir este colaborador?')) {
+                        this.collaborators = this.collaborators.filter(c => c.id !== collaboratorId);
+                        // Também remover renovações associadas
+                        this.renewals = this.renewals.filter(r => r.collaboratorId !== collaboratorId);
+                        this.saveData();
+                    }
+                },
+                
+                cancelCollaboratorEdit() {
+                    this.editingCollaborator = null;
+                    this.newCollaborator = {
+                        name: '',
+                        email: '',
+                        sectorId: '',
+                        position: '',
+                        phone: '',
+                        status: 'ativo'
+                    };
+                    this.showCollaboratorForm = false;
+                    this.saveData();
+                },
+                
+                addSector() {
+                    if (!this.newSector.name || !this.newSector.manager) {
+                        alert('Por favor, preencha os campos obrigatórios');
+                        return;
+                    }
+                    
+                    const sector = {
+                        id: this.editingSector ? this.editingSector.id : Date.now().toString(),
+                        name: this.newSector.name,
+                        description: this.newSector.description,
+                        manager: this.newSector.manager,
+                        budget: this.newSector.budget,
+                        location: this.newSector.location,
+                        status: this.newSector.status
+                    };
+                    
+                    if (this.editingSector) {
+                        // Atualizar setor existente
+                        const index = this.sectors.findIndex(s => s.id === this.editingSector.id);
+                        if (index !== -1) {
+                            this.sectors[index] = sector;
+                        }
+                        this.editingSector = null;
+                    } else {
+                        // Adicionar novo setor
+                        this.sectors.push(sector);
+                    }
+                    
+                    // Limpar formulário
+                    this.newSector = {
+                        name: '',
+                        description: '',
+                        manager: '',
+                        budget: '',
+                        location: '',
+                        status: 'ativo'
+                    };
+                    
+                    this.showSectorForm = false;
+                    this.saveData();
+                },
+                
+                editSector(sector) {
+                    this.editingSector = sector;
+                    this.newSector = {
+                        name: sector.name,
+                        description: sector.description,
+                        manager: sector.manager,
+                        budget: sector.budget,
+                        location: sector.location,
+                        status: sector.status
+                    };
+                    this.showSectorForm = true;
+                },
+                
+                deleteSector(sectorId) {
+                    if (confirm('Tem certeza que deseja excluir este setor? Isso também removerá todos os colaboradores associados.')) {
+                        // Remover setor
+                        this.sectors = this.sectors.filter(s => s.id !== sectorId);
+                        // Remover colaboradores associados
+                        this.collaborators = this.collaborators.filter(c => c.sectorId !== sectorId);
+                        // Remover renovações de colaboradores removidos
+                        const removedCollaboratorIds = this.collaborators.filter(c => c.sectorId !== sectorId).map(c => c.id);
+                        this.renewals = this.renewals.filter(r => !removedCollaboratorIds.includes(r.collaboratorId));
+                        this.saveData();
+                    }
+                },
+                
+                cancelSectorEdit() {
+                    this.editingSector = null;
+                    this.newSector = {
+                        name: '',
+                        description: '',
+                        manager: '',
+                        budget: '',
+                        location: '',
+                        status: 'ativo'
+                    };
+                    this.showSectorForm = false;
+                    this.saveData();
+                },
+                
+                registerRenewal() {
+                    if (!this.newRenewal.collaboratorId || !this.newRenewal.clientName || !this.newRenewal.commissionType || !this.newRenewal.renewalDate) {
+                        alert('Por favor, preencha os campos obrigatórios');
+                        return;
+                    }
+                    
+                    const collaborator = this.collaborators.find(c => c.id === this.newRenewal.collaboratorId);
+                    const upgradeValue = Math.max(0, this.newRenewal.newPlanValue - this.newRenewal.previousPlanValue);
+                    const commissionValue = 3 + upgradeValue;
+                    
+                    const renewal = {
+                        id: this.editingRenewal ? this.editingRenewal.id : 'renewal_' + Date.now(),
+                        collaboratorId: this.newRenewal.collaboratorId,
+                        collaboratorName: collaborator ? collaborator.name : 'Não informado',
+                        clientName: this.newRenewal.clientName,
+                        contractNumber: this.newRenewal.contractNumber,
+                        renewalDate: this.newRenewal.renewalDate,
+                        commissionType: this.newRenewal.commissionType,
+                        previousPlan: { name: 'Valor Base', value: this.newRenewal.previousPlanValue },
+                        newPlan: { name: 'Valor Adicional', value: this.newRenewal.newPlanValue },
+                        upgradeValue: upgradeValue,
+                        commissionValue: commissionValue,
+                        status: this.editingRenewal ? this.editingRenewal.status : 'valid',
+                        paymentStatus: this.editingRenewal ? this.editingRenewal.paymentStatus : 'paid',
+                        createdAt: this.editingRenewal ? this.editingRenewal.createdAt : new Date().toISOString()
+                    };
+                    
+                    if (this.editingRenewal) {
+                        // Atualizar renovação existente
+                        const index = this.renewals.findIndex(r => r.id === this.editingRenewal.id);
+                        if (index !== -1) {
+                            this.renewals[index] = renewal;
+                        }
+                        this.editingRenewal = null;
+                        alert('Renovação atualizada com sucesso!');
+                    } else {
+                        // Adicionar nova renovação
+                        this.renewals.push(renewal);
+                        alert('Renovação registrada com sucesso!');
+                    }
+                    
+                    // Limpar formulário
+                    this.newRenewal = {
+                        collaboratorId: '',
+                        clientName: '',
+                        contractNumber: '',
+                        renewalDate: '',
+                        previousPlanValue: 0,
+                        newPlanValue: 0,
+                        commissionType: ''
+                    };
+                    
+                    this.saveData();
+                },
+                
+                getSectorName(sectorId) {
+                    const sector = this.sectors.find(s => s.id === sectorId);
+                    return sector ? sector.name : 'Não informado';
+                },
+                
+                getCollaboratorsBySector(sectorId) {
+                    return this.collaborators.filter(c => c.sectorId === sectorId);
+                },
+                
+                getSectorTotalCommission(sectorId) {
+                    const sectorCollaborators = this.getCollaboratorsBySector(sectorId);
+                    return sectorCollaborators.reduce((total, collaborator) => {
+                        return total + this.getCollaboratorTotalCommission(collaborator.id);
+                    }, 0);
+                },
+                
+                getCollaboratorUpgradeCommission(collaboratorId) {
+                    return this.renewals
+                        .filter(r => r.collaboratorId === collaboratorId)
+                        .reduce((total, renewal) => total + renewal.upgradeValue, 0);
+                },
+                
+                getCollaboratorStats() {
+                    if (!this.selectedCollaborator) return { renewals: 0, fixedCommission: 0, upgradeCommission: 0, totalCommission: 0 };
+                    
+                    const collaboratorRenewals = this.renewals.filter(r => r.collaboratorId === this.selectedCollaborator);
+                    const renewals = collaboratorRenewals.length;
+                    const fixedCommission = renewals * 3;
+                    const upgradeCommission = collaboratorRenewals.reduce((total, r) => total + r.upgradeValue, 0);
+                    const totalCommission = fixedCommission + upgradeCommission;
+                    
+                    return { renewals, fixedCommission, upgradeCommission, totalCommission };
+                },
+                
+                getCollaboratorRenewals() {
+                    if (!this.selectedCollaborator) return [];
+                    return this.renewals.filter(r => r.collaboratorId === this.selectedCollaborator);
+                },
+                
+                getCollaboratorRenewalsCount(collaboratorId) {
+                    return this.renewals.filter(r => r.collaboratorId === collaboratorId).length;
+                },
+                
+                getCollaboratorTotalCommission(collaboratorId) {
+                    const renewals = this.getCollaboratorRenewalsCount(collaboratorId);
+                    const upgradeCommission = this.getCollaboratorUpgradeCommission(collaboratorId);
+                    return (renewals * 3) + upgradeCommission;
+                },
+                
+                getMonthlyReport() {
+                    return {
+                        totalRenewals: this.renewals.length,
+                        totalCommissions: this.renewals.reduce((total, r) => total + r.commissionValue, 0),
+                        activeCollaborators: this.collaborators.filter(c => c.status === 'ativo').length,
+                        averageGoal: 100
+                    };
+                },
+                
+                getTotalRenewals() {
+                    return this.renewals.length;
+                },
+                
+                getTotalCommissions() {
+                    return this.renewals.reduce((total, r) => total + r.commissionValue, 0);
+                },
+                
+                getTotalUpgrades() {
+                    return this.renewals.reduce((total, r) => total + r.upgradeValue, 0);
+                },
+                
+                selectCollaboratorFromOverview(collaboratorId) {
+                    this.selectedCollaborator = collaboratorId;
+                    this.activeTab = 'commissions';
+                    this.commissionTab = 'individual';
+                },
+                
+                formatCurrency(value) {
+                    return new Intl.NumberFormat('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    }).format(value);
+                },
+                
+                formatDate(dateString) {
+                    return new Date(dateString).toLocaleDateString('pt-BR');
+                },
+                
+                getMonthName(monthNumber) {
+                    const month = this.months.find(m => m.value === monthNumber);
+                    return month ? month.label : '';
+                },
+                
+                // Função para calcular performance real
+                calculatePerformance() {
+                    if (this.goals.length === 0) return 0;
+                    
+                    const completedGoals = this.goals.filter(g => g.status === 'completed').length;
+                    const totalGoals = this.goals.length;
+                    
+                    return Math.round((completedGoals / totalGoals) * 100);
+                },
+                
+                // Função para salvar dados no localStorage
+                saveData() {
+                    localStorage.setItem('metas_goals', JSON.stringify(this.goals));
+                    localStorage.setItem('metas_collaborators', JSON.stringify(this.collaborators));
+                    localStorage.setItem('metas_sectors', JSON.stringify(this.sectors));
+                    localStorage.setItem('metas_renewals', JSON.stringify(this.renewals));
+                },
+                
+                // Função para resetar todos os dados
+                resetAllData() {
+                    if (confirm('Tem certeza que deseja resetar todos os dados? Isso irá remover todas as metas, colaboradores, setores e renovações cadastradas.')) {
+                        localStorage.removeItem('metas_goals');
+                        localStorage.removeItem('metas_collaborators');
+                        localStorage.removeItem('metas_sectors');
+                        localStorage.removeItem('metas_renewals');
+                        location.reload(); // Recarrega a página para voltar aos dados padrão
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

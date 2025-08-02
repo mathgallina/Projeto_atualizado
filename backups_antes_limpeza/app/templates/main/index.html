@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block title %}Central de Conhecimento - Veloz Fibra{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+  <div class="flex">
+    <!-- Sidebar Navigation -->
+    <div class="w-64 bg-gray-800 border-r border-gray-700 min-h-screen">
+      <div class="p-6">
+        <h3 class="text-white font-semibold mb-4">Navegação</h3>
+        <nav class="space-y-2">
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Ferramentas Utilizadas
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Documentos Gerais
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Onboarding
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Visão da Empresa
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Documentação
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Políticas da Empresa
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Histórico de Mudanças
+          </a>
+          <a href="#" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-folder mr-3"></i>
+            Processors Internos
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1">
+      <!-- Header -->
+      <header class="bg-gray-800 border-b border-gray-700 p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-wifi text-white text-xl"></i>
+            </div>
+            <div>
+              <h1 class="text-2xl font-bold text-white">VELOZ FIBRA</h1>
+              <p class="text-gray-300 text-sm">Internet de Ultra Velocidade</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center space-x-4">
+            <!-- Search Bar -->
+            <div class="relative">
+              <input type="text" placeholder="Pesquisar páginas, documentos e arquivos..." 
+                     class="bg-gray-700 text-white placeholder-gray-400 px-4 py-2 rounded-lg w-80 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="flex items-center space-x-2 bg-gray-700 px-3 py-2 rounded-lg">
+              <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm font-medium">MG</span>
+              </div>
+              <div class="text-white">
+                <p class="text-sm font-medium">Matheus Gallina</p>
+                <p class="text-xs text-gray-300">Admin</p>
+              </div>
+              <i class="fas fa-cog text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="p-8">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-white mb-4">Central de Conhecimento</h2>
+          <p class="text-gray-300 text-lg max-w-4xl mx-auto">
+            Bem-vindo à nossa Central de Conhecimento. Aqui você encontra tudo sobre processadores, ferramentas, procedimentos e informações essenciais para oferecer a melhor internet de ultra velocidade para nossos clientes.
+          </p>
+        </div>
+
+        <!-- 4 Cards Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <!-- Card 1: Ultra Velocidade -->
+          <div class="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="loadPlans()">
+            <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+              <i class="fas fa-wifi text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Ultra Velocidade</h3>
+            <p class="text-white/80 mb-4">Internet de alta performance</p>
+            <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors">
+              → Ver Planos
+            </button>
+          </div>
+
+          <!-- Card 2: Sistema de Metas -->
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="loadGoals()">
+            <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+              <i class="fas fa-bullseye text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Sistema de Metas</h3>
+            <p class="text-white/80 mb-4">Controle de metas por colaborador e setor</p>
+            <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors">
+              → Acessar
+            </button>
+          </div>
+
+          <!-- Card 3: Recursos Humanos -->
+          <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="loadHR()">
+            <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+              <i class="fas fa-users text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Recursos Humanos</h3>
+            <p class="text-white/80 mb-4">Acesso a documentos, políticas e comunicações do RH</p>
+            <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors">
+              → Acessar
+            </button>
+          </div>
+
+          <!-- Card 4: Treinamentos Internos -->
+          <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer" onclick="loadTraining()">
+            <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+              <i class="fas fa-graduation-cap text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Treinamentos Internos</h3>
+            <p class="text-white/80 mb-4">Desenvolvimento Profissional</p>
+            <button class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors">
+              → Acessar
+            </button>
+          </div>
+        </div>
+
+        <!-- Explore Sections -->
+        <div class="mt-12">
+          <h3 class="text-2xl font-bold text-white mb-6">Explore Nossas Seções</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-colors cursor-pointer">
+              <div class="flex items-center">
+                <i class="fas fa-tools text-blue-400 mr-3"></i>
+                <span class="text-white">Ferramentas</span>
+              </div>
+            </div>
+            <!-- Adicione mais seções conforme necessário -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- Goals Modal -->
+<div id="goals-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+  <div class="bg-gray-800 rounded-3xl shadow-2xl max-w-4xl w-full p-8">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-2xl font-bold text-white">Sistema de Metas</h3>
+      <button onclick="closeGoalsModal()" class="text-gray-400 hover:text-gray-300">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="mb-6">
+      <form id="goal-form" class="bg-gray-700 p-6 rounded-2xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Nome da Meta</label>
+            <input type="text" id="goal-name" class="w-full px-3 py-2 border border-gray-600 rounded-lg bg-gray-600 text-white focus:ring-2 focus:ring-blue-500" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">Prazo</label>
+            <input type="date" id="goal-deadline" class="w-full px-3 py-2 border border-gray-600 rounded-lg bg-gray-600 text-white focus:ring-2 focus:ring-blue-500">
+          </div>
+        </div>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+          <i class="fas fa-plus mr-2"></i>
+          Adicionar Meta
+        </button>
+      </form>
+    </div>
+    
+    <div id="goals-list" class="space-y-4">
+      <!-- Goals will be added here dynamically -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Funções para os cards
+function loadPlans() {
+  window.location.href = '/planos';
+}
+
+function loadGoals() {
+  document.getElementById('goals-modal').classList.remove('hidden');
+}
+
+function closeGoalsModal() {
+  document.getElementById('goals-modal').classList.add('hidden');
+}
+
+function loadHR() {
+  alert('Sistema de Recursos Humanos - Em desenvolvimento');
+}
+
+function loadTraining() {
+  alert('Sistema de Treinamentos - Em desenvolvimento');
+}
+
+// Sistema de metas
+document.addEventListener('DOMContentLoaded', function() {
+  const goalForm = document.getElementById('goal-form');
+  const goalsList = document.getElementById('goals-list');
+  
+  if (goalForm) {
+    goalForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const goalName = document.getElementById('goal-name').value;
+      const goalDeadline = document.getElementById('goal-deadline').value;
+      
+      if (!goalName) {
+        alert('Por favor, insira o nome da meta');
+        return;
+      }
+      
+      // Adicionar meta à lista
+      const goalItem = document.createElement('div');
+      goalItem.className = 'bg-gray-700 p-4 rounded-2xl border border-gray-600';
+      goalItem.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="font-semibold text-white">${goalName}</h4>
+            <p class="text-sm text-gray-300">Prazo: ${goalDeadline || 'Não definido'}</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="viewGoal(this)" class="btn-view" title="Visualizar">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button onclick="editGoal(this)" class="btn-edit" title="Editar">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button onclick="deleteGoal(this)" class="btn-delete" title="Excluir">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      goalsList.appendChild(goalItem);
+      
+      // Limpar formulário
+      goalForm.reset();
+      
+      console.log('Meta adicionada:', { name: goalName, deadline: goalDeadline });
+    });
+  }
+});
+
+function viewGoal(button) {
+  const goalName = button.closest('div').querySelector('h4').textContent;
+  alert(`Visualizando meta: ${goalName}`);
+}
+
+function editGoal(button) {
+  const goalName = button.closest('div').querySelector('h4').textContent;
+  alert(`Editando meta: ${goalName}`);
+}
+
+function deleteGoal(button) {
+  const goalName = button.closest('div').querySelector('h4').textContent;
+  if (confirm(`Excluir meta: ${goalName}?`)) {
+    button.closest('div').remove();
+  }
+}
+
+// Fechar modais ao clicar fora
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'goals-modal') {
+    e.target.classList.add('hidden');
+  }
+});
+</script>
+{% endblock %} 

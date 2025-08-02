@@ -1,0 +1,68 @@
+[
+  {
+    "id": "goal-001",
+    "title": "Implementar novo sistema de vendas",
+    "description": "Desenvolver e implementar sistema completo de gestão de vendas para equipe comercial",
+    "collaborator_id": "collab-001",
+    "sector_id": "comercial",
+    "due_date": "2025-02-15T23:59:59",
+    "status": "ativo",
+    "created_at": "2025-01-20T10:00:00",
+    "updated_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "goal-002",
+    "title": "Atualizar infraestrutura de rede",
+    "description": "Modernizar equipamentos de rede e instalação de novos pontos de acesso",
+    "collaborator_id": "collab-002",
+    "sector_id": "tecnico",
+    "due_date": "2025-01-31T23:59:59",
+    "status": "atrasado",
+    "created_at": "2025-01-15T10:00:00",
+    "updated_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "goal-003",
+    "title": "Finalizar relatório mensal",
+    "description": "Concluir relatório financeiro do mês de janeiro com análise de resultados",
+    "collaborator_id": "collab-003",
+    "sector_id": "financeiro",
+    "due_date": "2025-01-25T23:59:59",
+    "status": "concluido",
+    "created_at": "2025-01-20T10:00:00",
+    "updated_at": "2025-01-25T10:00:00"
+  },
+  {
+    "id": "goal-004",
+    "title": "Processar folha de pagamento",
+    "description": "Finalizar processamento da folha de pagamento de janeiro",
+    "collaborator_id": "collab-004",
+    "sector_id": "rh",
+    "due_date": "2025-01-30T23:59:59",
+    "status": "ativo",
+    "created_at": "2025-01-20T10:00:00",
+    "updated_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "goal-005",
+    "title": "Migrar servidores para cloud",
+    "description": "Migrar infraestrutura de servidores para ambiente cloud",
+    "collaborator_id": "collab-005",
+    "sector_id": "ti",
+    "due_date": "2025-03-15T23:59:59",
+    "status": "ativo",
+    "created_at": "2025-01-20T10:00:00",
+    "updated_at": "2025-01-20T10:00:00"
+  },
+  {
+    "id": "goal-006",
+    "title": "Treinar equipe comercial",
+    "description": "Realizar treinamento sobre novos produtos e estratégias de vendas",
+    "collaborator_id": "collab-001",
+    "sector_id": "comercial",
+    "due_date": "2025-02-10T23:59:59",
+    "status": "ativo",
+    "created_at": "2025-01-20T10:00:00",
+    "updated_at": "2025-01-20T10:00:00"
+  }
+] 

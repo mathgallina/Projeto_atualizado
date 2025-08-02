@@ -15,7 +15,7 @@ main_bp = Blueprint("main", __name__)
 @login_required
 def index():
     """Main dashboard page"""
-    return render_template("index.html")
+    return render_template("index.html", active_page="home")
 
 
 @main_bp.route("/pages")
@@ -29,7 +29,7 @@ def pages():
 @login_required
 def documents():
     """Documents dashboard page"""
-    return render_template("documents/index.html")
+    return render_template("documents/index.html", active_page="documents")
 
 
 @main_bp.route("/api/categories")
@@ -146,14 +146,14 @@ def global_search():
 @login_required
 def admin_analytics():
     """Admin analytics page"""
-    return render_template("admin_analytics.html")
+    return render_template("admin_analytics.html", active_page="analytics")
 
 
 @main_bp.route("/admin/notifications")
 @login_required
 def admin_notifications():
     """Admin notifications page"""
-    return render_template("admin_notifications.html")
+    return render_template("admin_notifications.html", active_page="notifications")
 
 
 @main_bp.route("/admin/pdfs")
@@ -167,11 +167,18 @@ def admin_pdfs():
 @login_required
 def admin_backup():
     """Admin backup page"""
-    return render_template("admin_backup.html")
+    return render_template("admin_backup.html", active_page="backup")
 
 
 @main_bp.route("/planos")
 @login_required
 def planos():
     """Planos Ultra Velocidade page"""
-    return render_template("planos_veloz.html")
+    return render_template("planos_veloz.html", active_page="planos")
+
+
+@main_bp.route("/metas")
+@login_required
+def metas():
+    """Sistema de Metas page"""
+    return render_template("metas.html")

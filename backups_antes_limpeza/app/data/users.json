@@ -1,0 +1,14 @@
+[
+  {
+    "id": "admin-001",
+    "username": "admin",
+    "name": "Matheus Gallina",
+    "email": "matheus@velozfibra.com",
+    "password_hash": "pbkdf2:sha256:600000$rRB34SLsnTDnKWMo$3b392fb7aeadd643060411d60a92d840dfa1208df4ee380b1761d2b8d60eeb19",
+    "role": "admin",
+    "created_at": "2025-08-01T12:26:41.151422",
+    "updated_at": "2025-08-01T12:26:41.151438",
+    "last_login": null,
+    "is_active": true
+  }
+]

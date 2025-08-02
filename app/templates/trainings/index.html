@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Treinamentos Internos - Veloz Fibra{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+  <div class="flex">
+    <!-- Sidebar Navigation -->
+    <div class="w-64 bg-gray-800 border-r border-gray-700 min-h-screen">
+      <div class="p-6">
+        <h3 class="text-white font-semibold mb-4">Navegação</h3>
+        <nav class="space-y-2">
+          <a href="/" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-home mr-3"></i>
+            Dashboard Principal
+          </a>
+          <a href="/documents/" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-file-contract mr-3"></i>
+            Documentos
+          </a>
+          <a href="/goals/" class="flex items-center text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-bullseye mr-3"></i>
+            Sistema de Metas
+          </a>
+          <a href="/trainings/" class="flex items-center text-white bg-blue-600 px-3 py-2 rounded-lg transition-colors">
+            <i class="fas fa-graduation-cap mr-3"></i>
+            Treinamentos Internos
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1">
+      <!-- Header -->
+      <header class="bg-gray-800 border-b border-gray-700">
+        <div class="px-6 py-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-white">Treinamentos Internos</h1>
+              <p class="text-gray-400">Capacitação e desenvolvimento profissional</p>
+            </div>
+            <div class="flex space-x-3">
+              <a href="/trainings/create" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Criar Treinamento
+              </a>
+              <a href="/trainings/admin" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-cog mr-2"></i>
+                Administrar
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="p-6">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="mb-6 p-4 rounded-lg {% if category == 'success' %}bg-green-100 border border-green-400 text-green-700{% else %}bg-red-100 border border-red-400 text-red-700{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% if error %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+          {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 mb-8">
+          <div class="flex items-center">
+            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mr-6">
+              <i class="fas fa-graduation-cap text-white text-2xl"></i>
+            </div>
+            <div>
+              <h2 class="text-3xl font-bold text-white mb-2">Bem-vindo aos Treinamentos</h2>
+              <p class="text-blue-100">Desenvolva suas habilidades e conhecimentos com nossos cursos internos</p>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- Getting Started Section -->
+        <div class="mb-8">
+          <h3 class="text-2xl font-bold text-white mb-6">Como Começar</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-gray-800 rounded-lg p-6 text-center">
+              <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-plus text-white text-2xl"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-2">Criar Treinamento</h4>
+              <p class="text-gray-300 mb-4">Adicione novos treinamentos para sua equipe</p>
+              <a href="/trainings/create" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                Criar Agora
+              </a>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-6 text-center">
+              <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-cog text-white text-2xl"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-2">Administrar</h4>
+              <p class="text-gray-300 mb-4">Gerencie todos os treinamentos existentes</p>
+              <a href="/trainings/admin" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                Administrar
+              </a>
+            </div>
+            <div class="bg-gray-800 rounded-lg p-6 text-center">
+              <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-chart-line text-white text-2xl"></i>
+              </div>
+              <h4 class="text-xl font-bold text-white mb-2">Acompanhar Progresso</h4>
+              <p class="text-gray-300 mb-4">Monitore o progresso da equipe</p>
+              <a href="/trainings/admin" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                Ver Estatísticas
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="bg-gray-800 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-blue-400 mb-2">{{ stats.total_trainings }}</div>
+            <div class="text-gray-400">Total de Treinamentos</div>
+          </div>
+          <div class="bg-gray-800 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-green-400 mb-2">{{ stats.avg_completion_rate }}%</div>
+            <div class="text-gray-400">Taxa Média de Conclusão</div>
+          </div>
+          <div class="bg-gray-800 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-yellow-400 mb-2">{{ stats.total_participants }}</div>
+            <div class="text-gray-400">Participantes Ativos</div>
+          </div>
+          <div class="bg-gray-800 rounded-lg p-6 text-center">
+            <div class="text-3xl font-bold text-purple-400 mb-2">{{ stats.total_categories }}</div>
+            <div class="text-gray-400">Categorias</div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+{% endblock %} 
