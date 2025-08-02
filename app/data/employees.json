@@ -1,0 +1,15 @@
+[
+  {
+    "id": "98a2cfc4-8309-42dc-bd2c-0cbe7e43c261",
+    "name": "tetset",
+    "position": "tetstte",
+    "department": "Administrativo",
+    "email": "testet@testet.com.br",
+    "phone": "(89) 9999-9999",
+    "hire_date": "2222-09-01",
+    "status": "active",
+    "created_at": "2025-08-02T12:16:08.948487",
+    "updated_at": "2025-08-02T12:16:08.948487",
+    "notes": "tetstetetet"
+  }
+]

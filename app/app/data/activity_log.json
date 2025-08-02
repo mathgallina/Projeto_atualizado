@@ -19,5 +19,19 @@
     "action": "login",
     "details": "Login realizado por Matheus Gallina",
     "timestamp": "2025-08-02T08:56:09.286407"
+  },
+  {
+    "id": "activity-20250802121125",
+    "user_id": "admin-001",
+    "action": "logout",
+    "details": "Logout realizado por Matheus Gallina",
+    "timestamp": "2025-08-02T12:11:25.768638"
+  },
+  {
+    "id": "activity-20250802121131",
+    "user_id": "admin-001",
+    "action": "login",
+    "details": "Login realizado por Matheus Gallina",
+    "timestamp": "2025-08-02T12:11:31.260962"
   }
 ]

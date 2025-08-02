@@ -213,6 +213,14 @@ def register_blueprints(app, db_manager):
     except Exception as e:
         logger.error(f"Error registering trainings blueprint: {e}")
     
+    try:
+        # Register RH module
+        from app.modules.rh.routes import rh_bp
+        app.register_blueprint(rh_bp, url_prefix="/rh")
+        logger.info("RH blueprint registered")
+    except Exception as e:
+        logger.error(f"Error registering RH blueprint: {e}")
+    
     logger.info("All blueprints registered")
 
 
