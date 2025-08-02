@@ -1,3 +1,8 @@
+"""
+Sistema RH isolado: não adicionar código que afete outras funcionalidades.
+Qualquer alteração deve ser aprovada.
+"""
+
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, send_file
 from app.modules.rh.services.rh_service import RHService
 from app.modules.rh.services.document_service import DocumentService

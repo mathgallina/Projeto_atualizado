@@ -1,3 +1,8 @@
+"""
+Sistema RH isolado: não adicionar código que afete outras funcionalidades.
+Qualquer alteração deve ser aprovada.
+"""
+
 from typing import List, Dict, Optional
 from app.modules.rh.repositories.employee_repository import EmployeeRepository
 from app.modules.rh.repositories.equipment_repository import EquipmentRepository

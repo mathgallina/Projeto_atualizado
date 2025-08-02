@@ -1,3 +1,8 @@
+"""
+Sistema RH isolado: não adicionar código que afete outras funcionalidades.
+Qualquer alteração deve ser aprovada.
+"""
+
 import os
 import uuid
 from typing import List, Optional, Dict, Any

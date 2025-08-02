@@ -217,7 +217,7 @@ def register_blueprints(app, db_manager):
         # Register RH module
         from app.modules.rh.routes import rh_bp
         app.register_blueprint(rh_bp, url_prefix="/rh")
-        logger.info("RH blueprint registered")
+        logger.info("RH blueprint registered - ISOLATED")
     except Exception as e:
         logger.error(f"Error registering RH blueprint: {e}")
     
