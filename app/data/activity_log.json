@@ -1524,5 +1524,47 @@
     "details": "Pesquisou por: c (1 resultados)",
     "timestamp": "2025-08-01T21:10:44.747670",
     "ip_address": "unknown"
+  },
+  {
+    "user_id": "admin-001",
+    "action": "search",
+    "details": "Pesquisou por: docu (1 resultados)",
+    "timestamp": "2025-08-03T12:52:41.916902",
+    "ip_address": "unknown"
+  },
+  {
+    "user_id": "admin-001",
+    "action": "search",
+    "details": "Pesquisou por: doc (1 resultados)",
+    "timestamp": "2025-08-03T12:52:44.866610",
+    "ip_address": "unknown"
+  },
+  {
+    "user_id": "admin-001",
+    "action": "search",
+    "details": "Pesquisou por: m (1 resultados)",
+    "timestamp": "2025-08-03T12:52:46.578082",
+    "ip_address": "unknown"
+  },
+  {
+    "user_id": "admin-001",
+    "action": "search",
+    "details": "Pesquisou por: ma (0 resultados)",
+    "timestamp": "2025-08-03T12:52:49.809427",
+    "ip_address": "unknown"
+  },
+  {
+    "user_id": "admin-001",
+    "action": "search",
+    "details": "Pesquisou por: matheus (0 resultados)",
+    "timestamp": "2025-08-03T12:52:50.542281",
+    "ip_address": "unknown"
+  },
+  {
+    "user_id": "admin-001",
+    "action": "search",
+    "details": "Pesquisou por: matheu (0 resultados)",
+    "timestamp": "2025-08-03T12:52:51.940650",
+    "ip_address": "unknown"
   }
 ]

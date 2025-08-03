@@ -4,6 +4,7 @@ Qualquer alteração deve ser aprovada.
 """
 
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, send_file
+from flask_login import login_required, current_user
 from app.modules.rh.services.rh_service import RHService
 from app.modules.rh.services.document_service import DocumentService
 from datetime import datetime
@@ -15,18 +16,21 @@ rh_service = RHService()
 document_service = DocumentService()
 
 @rh_bp.route('/')
+@login_required
 def index():
     """Página principal do RH"""
     stats = rh_service.get_dashboard_stats()
     return render_template('rh/index.html', stats=stats)
 
 @rh_bp.route('/employees')
+@login_required
 def employees():
     """Lista de funcionários"""
     employees = rh_service.get_all_employees()
     return render_template('rh/employees.html', employees=employees)
 
 @rh_bp.route('/employees/create', methods=['GET', 'POST'])
+@login_required
 def create_employee():
     """Criar novo funcionário"""
     if request.method == 'POST':
@@ -52,6 +56,7 @@ def create_employee():
     return render_template('rh/create_employee.html')
 
 @rh_bp.route('/employees/<employee_id>')
+@login_required
 def view_employee(employee_id):
     """Visualizar funcionário"""
     employee_data = rh_service.get_employee_with_equipment(employee_id)
@@ -62,6 +67,7 @@ def view_employee(employee_id):
     return render_template('rh/view_employee.html', data=employee_data)
 
 @rh_bp.route('/employees/<employee_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_employee(employee_id):
     """Editar funcionário"""
     employee = rh_service.get_employee_by_id(employee_id)
@@ -95,6 +101,7 @@ def edit_employee(employee_id):
     return render_template('rh/edit_employee.html', employee=employee)
 
 @rh_bp.route('/employees/<employee_id>/delete', methods=['POST'])
+@login_required
 def delete_employee(employee_id):
     """Deletar funcionário"""
     try:
@@ -109,12 +116,14 @@ def delete_employee(employee_id):
     return redirect(url_for('rh.employees'))
 
 @rh_bp.route('/equipment')
+@login_required
 def equipment():
     """Lista de equipamentos"""
     equipment_list = rh_service.get_all_equipment()
     return render_template('rh/equipment.html', equipment=equipment_list)
 
 @rh_bp.route('/equipment/create', methods=['GET', 'POST'])
+@login_required
 def create_equipment():
     """Criar novo equipamento"""
     if request.method == 'POST':
@@ -143,6 +152,7 @@ def create_equipment():
     return render_template('rh/create_equipment.html', employees=employees)
 
 @rh_bp.route('/equipment/<equipment_id>')
+@login_required
 def view_equipment(equipment_id):
     """Visualizar equipamento"""
     equipment = rh_service.get_equipment_by_id(equipment_id)
@@ -157,6 +167,7 @@ def view_equipment(equipment_id):
     return render_template('rh/view_equipment.html', equipment=equipment, employee=assigned_employee)
 
 @rh_bp.route('/equipment/<equipment_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_equipment(equipment_id):
     """Editar equipamento"""
     equipment = rh_service.get_equipment_by_id(equipment_id)
@@ -193,6 +204,7 @@ def edit_equipment(equipment_id):
     return render_template('rh/edit_equipment.html', equipment=equipment, employees=employees)
 
 @rh_bp.route('/equipment/<equipment_id>/delete', methods=['POST'])
+@login_required
 def delete_equipment(equipment_id):
     """Deletar equipamento"""
     try:
@@ -207,6 +219,7 @@ def delete_equipment(equipment_id):
     return redirect(url_for('rh.equipment'))
 
 @rh_bp.route('/search')
+@login_required
 def search():
     """Busca em funcionários e equipamentos"""
     query = request.args.get('q', '')
@@ -225,6 +238,7 @@ def search():
     return render_template('rh/search.html', results=results)
 
 @rh_bp.route('/reports')
+@login_required
 def reports():
     """Relatórios do RH"""
     stats = rh_service.get_dashboard_stats()
@@ -234,6 +248,7 @@ def reports():
 
 # APIs para AJAX
 @rh_bp.route('/api/employees')
+@login_required
 def api_employees():
     """API para listar funcionários"""
     employees = rh_service.get_all_employees()
@@ -247,6 +262,7 @@ def api_employees():
     } for emp in employees])
 
 @rh_bp.route('/api/equipment')
+@login_required
 def api_equipment():
     """API para listar equipamentos"""
     equipment = rh_service.get_all_equipment()
@@ -261,6 +277,7 @@ def api_equipment():
 
 # Rotas para Documentos Corporativos
 @rh_bp.route('/documents')
+@login_required
 def documents():
     """Lista de documentos corporativos"""
     documents = document_service.get_all_documents()
@@ -268,6 +285,7 @@ def documents():
     return render_template('rh/documents.html', documents=documents, stats=stats)
 
 @rh_bp.route('/documents/create', methods=['GET', 'POST'])
+@login_required
 def create_document():
     """Criar novo documento"""
     if request.method == 'POST':
@@ -301,6 +319,7 @@ def create_document():
     return render_template('rh/create_document.html', employees=employees)
 
 @rh_bp.route('/documents/<document_id>')
+@login_required
 def view_document(document_id):
     """Visualizar documento"""
     document_data = document_service.get_document_with_employee(document_id)
@@ -311,6 +330,7 @@ def view_document(document_id):
     return render_template('rh/view_document.html', data=document_data)
 
 @rh_bp.route('/documents/<document_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_document(document_id):
     """Editar documento"""
     document = document_service.get_document_by_id(document_id)
@@ -344,6 +364,7 @@ def edit_document(document_id):
     return render_template('rh/edit_document.html', document=document, employees=employees)
 
 @rh_bp.route('/documents/<document_id>/delete', methods=['POST'])
+@login_required
 def delete_document(document_id):
     """Deletar documento"""
     try:
@@ -358,6 +379,7 @@ def delete_document(document_id):
     return redirect(url_for('rh.documents'))
 
 @rh_bp.route('/documents/<document_id>/upload', methods=['POST'])
+@login_required
 def upload_attachment(document_id):
     """Upload de anexo para documento"""
     try:
@@ -376,6 +398,7 @@ def upload_attachment(document_id):
     return redirect(url_for('rh.view_document', document_id=document_id))
 
 @rh_bp.route('/documents/<document_id>/attachment/<attachment_id>/delete', methods=['POST'])
+@login_required
 def delete_attachment(document_id, attachment_id):
     """Deletar anexo"""
     try:
@@ -390,6 +413,7 @@ def delete_attachment(document_id, attachment_id):
     return redirect(url_for('rh.view_document', document_id=document_id))
 
 @rh_bp.route('/documents/<document_id>/attachment/<attachment_id>/download')
+@login_required
 def download_attachment(document_id, attachment_id):
     """Download de anexo"""
     try:
@@ -421,6 +445,7 @@ def download_attachment(document_id, attachment_id):
         return redirect(url_for('rh.view_document', document_id=document_id))
 
 @rh_bp.route('/documents/search')
+@login_required
 def search_documents():
     """Busca em documentos"""
     query = request.args.get('q', '')
