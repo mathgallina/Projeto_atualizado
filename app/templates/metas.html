@@ -8,24 +8,59 @@
         // Sistema de Metas - JavaScript Puro
         window.metasApp = {
             activeTab: 'goals',
-            goals: [
-                { id: '1', title: 'Meta de Renovações - Janeiro 2024', description: 'Atingir 100 renovações válidas', sectorId: '1', type: 'renovacao', priority: 'alta', target: '100 renovações', status: 'in_progress', progress: 75 },
-                { id: '2', title: 'Meta de Vendas - Q1 2024', description: 'Aumentar vendas em 20%', sectorId: '2', type: 'vendas', priority: 'critica', target: 'R$ 500.000', status: 'in_progress', progress: 60 },
-                { id: '3', title: 'Meta de Atendimento - Fevereiro', description: 'Manter satisfação acima de 90%', sectorId: '3', type: 'atendimento', priority: 'media', target: '90% satisfação', status: 'completed', progress: 95 }
-            ],
-            collaborators: [
-                { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
-                { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-2222', status: 'ativo' },
-                { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-3333', status: 'ativo' }
-            ],
-            sectors: [
-                { id: '1', name: 'Renovação', description: 'Setor responsável por renovações', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
-                { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
-                { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
-                { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
-                { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
-                { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
-            ],
+            goals: [],
+            collaborators: [],
+            sectors: [],
+            
+            // Função para carregar dados do localStorage
+            loadData: function() {
+                const savedGoals = localStorage.getItem('metas_goals');
+                const savedCollaborators = localStorage.getItem('metas_collaborators');
+                const savedSectors = localStorage.getItem('metas_sectors');
+                
+                if (savedGoals) {
+                    this.goals = JSON.parse(savedGoals);
+                } else {
+                    // Dados padrão apenas se não existirem dados salvos
+                    this.goals = [
+                        { id: '1', title: 'Meta de Renovações - Janeiro 2024', description: 'Atingir 100 renovações válidas', sectorId: '1', type: 'renovacao', priority: 'alta', target: '100 renovações', status: 'in_progress', progress: 75 },
+                        { id: '2', title: 'Meta de Vendas - Q1 2024', description: 'Aumentar vendas em 20%', sectorId: '2', type: 'vendas', priority: 'critica', target: 'R$ 500.000', status: 'in_progress', progress: 60 },
+                        { id: '3', title: 'Meta de Atendimento - Fevereiro', description: 'Manter satisfação acima de 90%', sectorId: '3', type: 'atendimento', priority: 'media', target: '90% satisfação', status: 'completed', progress: 95 }
+                    ];
+                }
+                
+                if (savedCollaborators) {
+                    this.collaborators = JSON.parse(savedCollaborators);
+                } else {
+                    // Dados padrão apenas se não existirem dados salvos
+                    this.collaborators = [
+                        { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
+                        { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-2222', status: 'ativo' },
+                        { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-3333', status: 'ativo' }
+                    ];
+                }
+                
+                if (savedSectors) {
+                    this.sectors = JSON.parse(savedSectors);
+                } else {
+                    // Dados padrão apenas se não existirem dados salvos
+                    this.sectors = [
+                        { id: '1', name: 'Renovação', description: 'Setor responsável por renovações', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
+                        { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
+                        { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
+                        { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
+                        { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
+                        { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
+                    ];
+                }
+            },
+            
+            // Função para salvar dados no localStorage
+            saveData: function() {
+                localStorage.setItem('metas_goals', JSON.stringify(this.goals));
+                localStorage.setItem('metas_collaborators', JSON.stringify(this.collaborators));
+                localStorage.setItem('metas_sectors', JSON.stringify(this.sectors));
+            },
             
             // Função para adicionar meta
             addGoal: function() {
@@ -62,6 +97,9 @@
                 document.getElementById('goalType').value = '';
                 document.getElementById('goalPriority').value = '';
                 document.getElementById('goalTarget').value = '';
+                
+                // Salvar dados
+                this.saveData();
                 
                 // Recarregar lista
                 this.loadGoals();
@@ -192,8 +230,14 @@
                 // Esconder formulário
                 document.getElementById('sectorForm').style.display = 'none';
                 
+                // Salvar dados
+                this.saveData();
+                
                 // Recarregar setores no select de metas
                 this.loadSectorsToSelect();
+                
+                // Recarregar lista de setores
+                this.loadSectorsList();
                 
                 alert('Setor adicionado com sucesso!');
             },
@@ -269,6 +313,7 @@
             deleteSector: function(sectorId) {
                 if (confirm('Tem certeza que deseja excluir este setor?')) {
                     this.sectors = this.sectors.filter(s => s.id !== sectorId);
+                    this.saveData();
                     this.loadSectorsList();
                     this.loadSectorsToSelect();
                     alert('Setor excluído com sucesso!');
@@ -316,6 +361,9 @@
                 
                 // Esconder formulário
                 document.getElementById('collaboratorForm').style.display = 'none';
+                
+                // Salvar dados
+                this.saveData();
                 
                 // Recarregar lista
                 this.loadCollaboratorsList();
@@ -380,6 +428,7 @@
             deleteCollaborator: function(collaboratorId) {
                 if (confirm('Tem certeza que deseja excluir este colaborador?')) {
                     this.collaborators = this.collaborators.filter(c => c.id !== collaboratorId);
+                    this.saveData();
                     this.loadCollaboratorsList();
                     alert('Colaborador excluído com sucesso!');
                 }
@@ -389,6 +438,11 @@
         // Inicializar quando a página carregar
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Sistema de Metas carregado');
+            
+            // Carregar dados salvos
+            metasApp.loadData();
+            
+            // Carregar interfaces
             metasApp.loadSectorsToSelect();
             metasApp.loadGoals();
             metasApp.loadSectorsList();
