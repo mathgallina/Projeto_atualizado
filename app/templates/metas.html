@@ -209,6 +209,180 @@
                 if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
                 if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
                 if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+            },
+            
+            // Função para carregar lista de setores
+            loadSectorsList: function() {
+                const tbody = document.getElementById('sectorsTableBody');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    this.sectors.forEach(sector => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">${sector.name}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${sector.manager}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${sector.location || '-'}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${sector.budget || '-'}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${sector.status === 'ativo' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}">${sector.status}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="metasApp.editSector('${sector.id}')" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="metasApp.deleteSector('${sector.id}')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            },
+            
+            // Função para editar setor
+            editSector: function(sectorId) {
+                const sector = this.sectors.find(s => s.id === sectorId);
+                if (sector) {
+                    document.getElementById('sectorName').value = sector.name;
+                    document.getElementById('sectorManager').value = sector.manager;
+                    if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = sector.budget || '';
+                    if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = sector.location || '';
+                    if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = sector.status || 'ativo';
+                    if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = sector.description || '';
+                    
+                    document.getElementById('sectorForm').style.display = 'block';
+                    document.getElementById('sectorButtonText').textContent = 'Atualizar Setor';
+                    this.editingSectorId = sectorId;
+                }
+            },
+            
+            // Função para excluir setor
+            deleteSector: function(sectorId) {
+                if (confirm('Tem certeza que deseja excluir este setor?')) {
+                    this.sectors = this.sectors.filter(s => s.id !== sectorId);
+                    this.loadSectorsList();
+                    this.loadSectorsToSelect();
+                    alert('Setor excluído com sucesso!');
+                }
+            },
+            
+            // Função para mostrar formulário de colaborador
+            showCollaboratorForm: function() {
+                document.getElementById('collaboratorForm').style.display = 'block';
+            },
+            
+            // Função para adicionar colaborador
+            addCollaborator: function() {
+                const name = document.getElementById('collaboratorName').value;
+                const email = document.getElementById('collaboratorEmail').value;
+                const sectorId = document.getElementById('collaboratorSector').value;
+                const position = document.getElementById('collaboratorPosition') ? document.getElementById('collaboratorPosition').value : '';
+                const phone = document.getElementById('collaboratorPhone') ? document.getElementById('collaboratorPhone').value : '';
+                const status = document.getElementById('collaboratorStatus') ? document.getElementById('collaboratorStatus').value : 'ativo';
+                
+                if (!name || !email || !sectorId) {
+                    alert('Por favor, preencha os campos obrigatórios');
+                    return;
+                }
+                
+                const collaborator = {
+                    id: Date.now().toString(),
+                    name: name,
+                    email: email,
+                    sectorId: sectorId,
+                    position: position,
+                    phone: phone,
+                    status: status
+                };
+                
+                this.collaborators.push(collaborator);
+                
+                // Limpar formulário
+                document.getElementById('collaboratorName').value = '';
+                document.getElementById('collaboratorEmail').value = '';
+                document.getElementById('collaboratorSector').value = '';
+                if (document.getElementById('collaboratorPosition')) document.getElementById('collaboratorPosition').value = '';
+                if (document.getElementById('collaboratorPhone')) document.getElementById('collaboratorPhone').value = '';
+                if (document.getElementById('collaboratorStatus')) document.getElementById('collaboratorStatus').value = 'ativo';
+                
+                // Esconder formulário
+                document.getElementById('collaboratorForm').style.display = 'none';
+                
+                // Recarregar lista
+                this.loadCollaboratorsList();
+                
+                alert('Colaborador adicionado com sucesso!');
+            },
+            
+            // Função para carregar lista de colaboradores
+            loadCollaboratorsList: function() {
+                const tbody = document.querySelector('#collaborators-content tbody');
+                if (tbody) {
+                    tbody.innerHTML = '';
+                    this.collaborators.forEach(collaborator => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">${collaborator.name}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${collaborator.email}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${collaborator.position || '-'}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${this.getSectorName(collaborator.sectorId)}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${collaborator.status === 'ativo' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : collaborator.status === 'inativo' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'}">${collaborator.status}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <button onclick="metasApp.editCollaborator('${collaborator.id}')" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="metasApp.deleteCollaborator('${collaborator.id}')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+            },
+            
+            // Função para editar colaborador
+            editCollaborator: function(collaboratorId) {
+                const collaborator = this.collaborators.find(c => c.id === collaboratorId);
+                if (collaborator) {
+                    document.getElementById('collaboratorName').value = collaborator.name;
+                    document.getElementById('collaboratorEmail').value = collaborator.email;
+                    document.getElementById('collaboratorSector').value = collaborator.sectorId;
+                    if (document.getElementById('collaboratorPosition')) document.getElementById('collaboratorPosition').value = collaborator.position || '';
+                    if (document.getElementById('collaboratorPhone')) document.getElementById('collaboratorPhone').value = collaborator.phone || '';
+                    if (document.getElementById('collaboratorStatus')) document.getElementById('collaboratorStatus').value = collaborator.status || 'ativo';
+                    
+                    document.getElementById('collaboratorForm').style.display = 'block';
+                    this.editingCollaboratorId = collaboratorId;
+                }
+            },
+            
+            // Função para excluir colaborador
+            deleteCollaborator: function(collaboratorId) {
+                if (confirm('Tem certeza que deseja excluir este colaborador?')) {
+                    this.collaborators = this.collaborators.filter(c => c.id !== collaboratorId);
+                    this.loadCollaboratorsList();
+                    alert('Colaborador excluído com sucesso!');
+                }
             }
         };
         
@@ -217,6 +391,8 @@
             console.log('Sistema de Metas carregado');
             metasApp.loadSectorsToSelect();
             metasApp.loadGoals();
+            metasApp.loadSectorsList();
+            metasApp.loadCollaboratorsList();
             metasApp.showTab('goals');
             
             // Adicionar event listeners para as abas
