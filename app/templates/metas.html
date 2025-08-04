@@ -310,12 +310,12 @@
                                 </div>
                             </div>
                             <div class="mt-6 flex justify-end space-x-3">
-                                <button x-show="editingGoal" @click="cancelGoalEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                <button id="cancelGoalBtn" style="display: none;" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
                                     Cancelar
                                 </button>
-                                <button @click="addGoal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                <button onclick="metasApp.addGoal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
                                     <i class="fas fa-plus mr-2"></i>
-                                    <span x-text="editingGoal ? 'Atualizar Meta' : 'Nova Meta'"></span>
+                                    <span id="goalButtonText">Nova Meta</span>
                                 </button>
                             </div>
                         </div>
@@ -383,14 +383,14 @@
                                 <i class="fas fa-users text-blue-500 mr-2"></i>
                                 Gerenciar Colaboradores
                             </h3>
-                            <button @click="showCollaboratorForm = true" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                            <button onclick="metasApp.showCollaboratorForm = true; document.getElementById('collaboratorForm').style.display = 'block';" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
                                 <i class="fas fa-plus mr-2"></i>
                                 Novo Colaborador
                             </button>
                         </div>
                         
                         <!-- Formulário de Cadastro -->
-                        <div x-show="showCollaboratorForm" class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
+                        <div id="collaboratorForm" style="display: none;" class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
                             <h4 class="text-lg font-semibold mb-4 flex items-center">
                                 <i class="fas fa-user-plus text-blue-500 mr-2"></i>
                                 <span x-text="editingCollaborator ? 'Editar Colaborador' : 'Cadastrar Novo Colaborador'"></span>
@@ -401,7 +401,7 @@
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Nome Completo *
                                         </label>
-                                        <input type="text" x-model="newCollaborator.name" placeholder="Digite o nome completo" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <input type="text" id="collaboratorName" placeholder="Digite o nome completo" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
