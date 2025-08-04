@@ -12,6 +12,10 @@
             collaborators: [],
             sectors: [],
             
+            // Variáveis de estado
+            editingCommission: null,
+            viewingCommission: false,
+            
             // Função para carregar dados do localStorage
             loadData: function() {
                 const savedGoals = localStorage.getItem('metas_goals');
@@ -23,9 +27,9 @@
                 } else {
                     // Dados padrão apenas se não existirem dados salvos
                     this.goals = [
-                        { id: '1', title: 'Meta de Renovações - Janeiro 2024', description: 'Atingir 100 renovações válidas', sectorId: '1', type: 'renovacao', priority: 'alta', target: '100 renovações', status: 'in_progress', progress: 75 },
-                        { id: '2', title: 'Meta de Vendas - Q1 2024', description: 'Aumentar vendas em 20%', sectorId: '2', type: 'vendas', priority: 'critica', target: 'R$ 500.000', status: 'in_progress', progress: 60 },
-                        { id: '3', title: 'Meta de Atendimento - Fevereiro', description: 'Manter satisfação acima de 90%', sectorId: '3', type: 'atendimento', priority: 'media', target: '90% satisfação', status: 'completed', progress: 95 }
+                        { id: '1', title: 'Meta de Vendas - Q1 2024', description: 'Aumentar vendas em 20%', sectorId: '2', type: 'vendas', priority: 'alta', target: 'R$ 500.000', status: 'in_progress', progress: 60 },
+                        { id: '2', title: 'Meta de Atendimento - Fevereiro', description: 'Manter satisfação acima de 90%', sectorId: '3', type: 'atendimento', priority: 'media', target: '90% satisfação', status: 'completed', progress: 95 },
+                        { id: '3', title: 'Meta de Marketing - Março', description: 'Gerar 500 leads qualificados', sectorId: '5', type: 'marketing', priority: 'alta', target: '500 leads', status: 'in_progress', progress: 40 }
                     ];
                 }
                 
@@ -34,9 +38,9 @@
                 } else {
                     // Dados padrão apenas se não existirem dados salvos
                     this.collaborators = [
-                        { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
-                        { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-2222', status: 'ativo' },
-                        { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-3333', status: 'ativo' }
+                        { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-1111', status: 'ativo' },
+                        { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-2222', status: 'ativo' },
+                        { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '4', position: 'Técnico', phone: '(11) 99999-3333', status: 'ativo' }
                     ];
                 }
                 
@@ -45,10 +49,10 @@
                 } else {
                     // Dados padrão apenas se não existirem dados salvos
                     this.sectors = [
-                        { id: '1', name: 'Renovação', description: 'Setor responsável por renovações', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
-                        { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
-                        { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
-                        { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
+                        { id: '1', name: 'Administrativo', description: 'Setor administrativo', manager: 'Ana Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
+                        { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'João Silva', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
+                        { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Maria Santos', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
+                        { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Pedro Costa', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
                         { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
                         { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
                     ];
@@ -432,6 +436,97 @@
                     this.loadCollaboratorsList();
                     alert('Colaborador excluído com sucesso!');
                 }
+            },
+            
+            editCommission(commission) {
+                this.editingCommission = commission;
+                this.newRenewal = {
+                    collaboratorId: commission.collaboratorId,
+                    clientName: commission.clientName,
+                    contractNumber: commission.contractNumber,
+                    renewalDate: commission.renewalDate,
+                    previousPlanValue: commission.previousPlan.value,
+                    newPlanValue: commission.newPlan.value,
+                    commissionType: commission.commissionType || ''
+                };
+            },
+            
+            viewCommission(commission) {
+                this.viewingCommission = commission;
+            },
+            
+            deleteCommission(commissionId) {
+                if (confirm('Tem certeza que deseja excluir esta comissão?')) {
+                    this.renewals = this.renewals.filter(r => r.id !== commissionId);
+                    this.saveData();
+                }
+            },
+            
+            cancelCommissionEdit() {
+                this.editingCommission = null;
+                this.newRenewal = {
+                    collaboratorId: '',
+                    clientName: '',
+                    contractNumber: '',
+                    renewalDate: '',
+                    previousPlanValue: 0,
+                    newPlanValue: 0,
+                    commissionType: ''
+                };
+            },
+            
+            registerCommission() {
+                if (!this.newRenewal.collaboratorId || !this.newRenewal.clientName || !this.newRenewal.commissionType || !this.newRenewal.renewalDate) {
+                    alert('Por favor, preencha todos os campos obrigatórios');
+                    return;
+                }
+                
+                const collaborator = this.collaborators.find(c => c.id === this.newRenewal.collaboratorId);
+                const upgradeValue = Math.max(0, this.newRenewal.newPlanValue - this.newRenewal.previousPlanValue);
+                
+                const commission = {
+                    id: this.editingCommission ? this.editingCommission.id : 'commission_' + Date.now(),
+                    collaboratorId: this.newRenewal.collaboratorId,
+                    collaboratorName: collaborator ? collaborator.name : 'Não informado',
+                    clientName: this.newRenewal.clientName,
+                    contractNumber: this.newRenewal.contractNumber,
+                    renewalDate: this.newRenewal.renewalDate,
+                    previousPlan: { name: 'Plano Anterior', value: this.newRenewal.previousPlanValue },
+                    newPlan: { name: 'Novo Plano', value: this.newRenewal.newPlanValue },
+                    upgradeValue: upgradeValue,
+                    commissionValue: upgradeValue + 3, // Comissão base + upgrade
+                    commissionType: this.newRenewal.commissionType,
+                    status: this.editingCommission ? this.editingCommission.status : 'valid',
+                    paymentStatus: this.editingCommission ? this.editingCommission.paymentStatus : 'paid',
+                    createdAt: this.editingCommission ? this.editingCommission.createdAt : new Date().toISOString()
+                };
+                
+                if (this.editingCommission) {
+                    // Atualizar comissão existente
+                    const index = this.renewals.findIndex(r => r.id === this.editingCommission.id);
+                    if (index !== -1) {
+                        this.renewals[index] = commission;
+                    }
+                    this.editingCommission = null;
+                    alert('Comissão atualizada com sucesso!');
+                } else {
+                    // Adicionar nova comissão
+                    this.renewals.push(commission);
+                    alert('Comissão registrada com sucesso!');
+                }
+                
+                // Limpar formulário
+                this.newRenewal = {
+                    collaboratorId: '',
+                    clientName: '',
+                    contractNumber: '',
+                    renewalDate: '',
+                    previousPlanValue: 0,
+                    newPlanValue: 0,
+                    commissionType: ''
+                };
+                
+                this.saveData();
             }
         };
         
@@ -457,6 +552,18 @@
                 });
             });
         });
+        
+        // Função global para limpar todos os dados
+        function clearAllData() {
+            if (confirm('Tem certeza que deseja limpar todos os dados? Isso irá remover todas as metas, colaboradores, setores e comissões cadastradas.')) {
+                localStorage.removeItem('metas_goals');
+                localStorage.removeItem('metas_collaborators');
+                localStorage.removeItem('metas_sectors');
+                localStorage.removeItem('metas_renewals');
+                alert('Dados limpos com sucesso! A página será recarregada.');
+                location.reload(); // Recarrega a página para voltar aos dados padrão
+            }
+        }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -662,9 +769,10 @@
                                             <select id="goalType" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                                 <option value="">Selecione o tipo</option>
                                                 <option value="vendas">Vendas</option>
-                                                <option value="renovacao">Renovação</option>
                                                 <option value="atendimento">Atendimento</option>
                                                 <option value="qualidade">Qualidade</option>
+                                                <option value="marketing">Marketing</option>
+                                                <option value="personalizado">Personalizado</option>
                                             </select>
                                         </div>
                                         <div>
@@ -1005,28 +1113,34 @@
                                     <h3 class="text-2xl font-bold mb-2">$ Sistema de Comissões</h3>
                                     <p class="text-blue-100">Veloz Fibra - Gestão flexível de comissões por setor</p>
                                 </div>
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                    Ativo
-                                </span>
+                                <div class="flex items-center space-x-3">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                        Ativo
+                                    </span>
+                                    <button onclick="clearAllData()" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 hover:bg-red-200 transition-colors">
+                                        <i class="fas fa-trash mr-1"></i>
+                                        Limpar Dados
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Cards de Estatísticas -->
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">R$ 3,00</div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">Comissão por Renovação</div>
+                                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">R$ 0,00</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Comissão Base</div>
                             </div>
                             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-                                <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">100</div>
+                                <div class="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">0</div>
                                 <div class="text-sm text-gray-600 dark:text-gray-400">Meta Mensal</div>
                             </div>
                             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">12</div>
-                                <div class="text-sm text-gray-600 dark:text-gray-400">Total de Renovações</div>
+                                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">0</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Total de Atividades</div>
                             </div>
                             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-                                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">R$ 179,00</div>
+                                <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400 mb-2">R$ 0,00</div>
                                 <div class="text-sm text-gray-600 dark:text-gray-400">Total Comissões</div>
                             </div>
                         </div>
@@ -1041,11 +1155,11 @@
                                 <div class="space-y-3">
                                     <h5 class="font-medium text-gray-900 dark:text-gray-100">Tipos de Comissão</h5>
                                     <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                                        <li>• <strong>Renovação:</strong> R$ 3,00 por renovação + upgrade</li>
-                                        <li>• <strong>Suporte:</strong> Bonificação por atendimentos</li>
                                         <li>• <strong>Vendas:</strong> Comissão por vendas realizadas</li>
+                                        <li>• <strong>Suporte:</strong> Bonificação por atendimentos</li>
                                         <li>• <strong>Marketing:</strong> Bônus por leads gerados</li>
                                         <li>• <strong>Qualidade:</strong> Incentivo por avaliações</li>
+                                        <li>• <strong>Personalizado:</strong> Configure conforme necessidade</li>
                                     </ul>
                                 </div>
                                 <div class="space-y-3">
@@ -1090,7 +1204,7 @@
                                     <div class="space-y-6">
                                         <h4 class="text-lg font-semibold flex items-center">
                                             <i class="fas fa-plus text-blue-500 mr-2"></i>
-                                            <span x-text="editingRenewal ? 'Editar Registro' : 'Registrar Nova Comissão'"></span>
+                                            <span x-text="editingCommission ? 'Editar Registro' : 'Registrar Nova Comissão'"></span>
                                         </h4>
                                         
                                         <div class="bg-gray-50 dark:bg-gray-700 rounded-xl p-6">
@@ -1113,11 +1227,11 @@
                                                         </label>
                                                         <select x-model="newRenewal.commissionType" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                                             <option value="">Selecione o tipo</option>
-                                                            <option value="renovacao">Renovação</option>
                                                             <option value="suporte">Suporte Técnico</option>
                                                             <option value="vendas">Vendas</option>
                                                             <option value="marketing">Marketing</option>
                                                             <option value="qualidade">Qualidade</option>
+                                                            <option value="personalizado">Personalizado</option>
                                                             <option value="outro">Outro</option>
                                                         </select>
                                                     </div>
@@ -1156,12 +1270,12 @@
                                                 </div>
                                             </div>
                                             <div class="mt-6 flex justify-end space-x-3">
-                                                <button x-show="editingRenewal" @click="cancelRenewalEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                                <button x-show="editingCommission" @click="cancelCommissionEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
                                                     Cancelar
                                                 </button>
-                                                <button @click="registerRenewal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                                <button @click="registerCommission()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
                                                     <i class="fas fa-plus mr-2"></i>
-                                                    <span x-text="editingRenewal ? 'Atualizar Registro' : 'Registrar Comissão'"></span>
+                                                    <span x-text="editingCommission ? 'Atualizar Registro' : 'Registrar Comissão'"></span>
                                                 </button>
                                             </div>
                                         </div>
@@ -1277,13 +1391,13 @@
                                                                     <div class="text-sm font-medium text-green-600 dark:text-green-400" x-text="formatCurrency(renewal.commissionValue)"></div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    <button @click="viewRenewal(renewal)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-2" title="Visualizar">
+                                                                    <button @click="viewCommission(renewal)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-2" title="Visualizar">
                                                                         <i class="fas fa-eye"></i>
                                                                     </button>
-                                                                    <button @click="editRenewal(renewal)" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-2" title="Editar">
+                                                                    <button @click="editCommission(renewal)" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-2" title="Editar">
                                                                         <i class="fas fa-edit"></i>
                                                                     </button>
-                                                                    <button @click="deleteRenewal(renewal.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" title="Excluir">
+                                                                    <button @click="deleteCommission(renewal.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" title="Excluir">
                                                                         <i class="fas fa-trash"></i>
                                                                     </button>
                                                                 </td>
@@ -1532,28 +1646,17 @@
                 goals: [
                     {
                         id: '1',
-                        title: 'Meta de Renovações - Janeiro 2024',
-                        description: 'Atingir 100 renovações válidas no mês de janeiro',
-                        sectorId: '1',
-                        type: 'renovacao',
-                        priority: 'alta',
-                        target: '100 renovações',
-                        status: 'in_progress',
-                        progress: 75
-                    },
-                    {
-                        id: '2',
                         title: 'Meta de Vendas - Q1 2024',
                         description: 'Aumentar vendas em 20% no primeiro trimestre',
                         sectorId: '2',
                         type: 'vendas',
-                        priority: 'critica',
+                        priority: 'alta',
                         target: 'R$ 500.000',
                         status: 'in_progress',
                         progress: 60
                     },
                     {
-                        id: '3',
+                        id: '2',
                         title: 'Meta de Atendimento - Fevereiro',
                         description: 'Manter satisfação do cliente acima de 90%',
                         sectorId: '3',
@@ -1562,20 +1665,31 @@
                         target: '90% satisfação',
                         status: 'completed',
                         progress: 95
+                    },
+                    {
+                        id: '3',
+                        title: 'Meta de Marketing - Março',
+                        description: 'Gerar 500 leads qualificados',
+                        sectorId: '5',
+                        type: 'marketing',
+                        priority: 'alta',
+                        target: '500 leads',
+                        status: 'in_progress',
+                        progress: 40
                     }
                 ],
                 sectors: [
-                    { id: '1', name: 'Renovação', description: 'Setor responsável por renovações de contratos', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
-                    { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
-                    { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
-                    { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
+                    { id: '1', name: 'Administrativo', description: 'Setor administrativo', manager: 'Ana Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
+                    { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'João Silva', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
+                    { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Maria Santos', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
+                    { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Pedro Costa', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
                     { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
                     { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
                 ],
                 collaborators: [
-                    { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
-                    { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-2222', status: 'ativo' },
-                    { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-3333', status: 'ativo' }
+                    { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-1111', status: 'ativo' },
+                    { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-2222', status: 'ativo' },
+                    { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '4', position: 'Técnico', phone: '(11) 99999-3333', status: 'ativo' }
                 ],
                 months: [
                     { value: 1, label: "Janeiro" },
@@ -1592,114 +1706,6 @@
                     { value: 12, label: "Dezembro" }
                 ],
                 renewals: [],
-                        createdAt: '2024-01-19T16:30:00Z'
-                    },
-                    {
-                        id: 'renewal_6',
-                        collaboratorId: '2',
-                        collaboratorName: 'Ana Renovação',
-                        clientName: 'Roberto Almeida',
-                        contractNumber: 'VF202401006',
-                        renewalDate: '2024-01-20',
-                        previousPlan: { name: 'Fibra 300MB', value: 99.90 },
-                        newPlan: { name: 'Fibra 1GB + TV + Telefone', value: 299.90 },
-                        upgradeValue: 200.00,
-                        commissionValue: 203.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-20T09:20:00Z'
-                    },
-                    {
-                        id: 'renewal_7',
-                        collaboratorId: '4',
-                        collaboratorName: 'Maria Renovação',
-                        clientName: 'Carlos Eduardo',
-                        contractNumber: 'VF202401007',
-                        renewalDate: '2024-01-21',
-                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
-                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
-                        upgradeValue: 40.00,
-                        commissionValue: 43.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-21T14:45:00Z'
-                    },
-                    {
-                        id: 'renewal_8',
-                        collaboratorId: '3',
-                        collaboratorName: 'Pedro Renovação',
-                        clientName: 'Amanda Silva',
-                        contractNumber: 'VF202401008',
-                        renewalDate: '2024-01-22',
-                        previousPlan: { name: 'Fibra 500MB', value: 129.90 },
-                        newPlan: { name: 'Fibra 1GB + TV', value: 229.90 },
-                        upgradeValue: 100.00,
-                        commissionValue: 103.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-22T10:10:00Z'
-                    },
-                    {
-                        id: 'renewal_9',
-                        collaboratorId: '5',
-                        collaboratorName: 'João Renovação',
-                        clientName: 'Ricardo Santos',
-                        contractNumber: 'VF202401009',
-                        renewalDate: '2024-01-23',
-                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
-                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
-                        upgradeValue: 40.00,
-                        commissionValue: 43.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-23T13:45:00Z'
-                    },
-                    {
-                        id: 'renewal_10',
-                        collaboratorId: '6',
-                        collaboratorName: 'Lucia Renovação',
-                        clientName: 'Patricia Costa',
-                        contractNumber: 'VF202401010',
-                        renewalDate: '2024-01-24',
-                        previousPlan: { name: 'Fibra 200MB', value: 79.90 },
-                        newPlan: { name: 'Fibra 1GB + TV', value: 229.90 },
-                        upgradeValue: 150.00,
-                        commissionValue: 153.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-24T16:20:00Z'
-                    },
-                    {
-                        id: 'renewal_11',
-                        collaboratorId: '5',
-                        collaboratorName: 'João Renovação',
-                        clientName: 'Marcelo Lima',
-                        contractNumber: 'VF202401011',
-                        renewalDate: '2024-01-25',
-                        previousPlan: { name: 'Fibra 300MB', value: 99.90 },
-                        newPlan: { name: 'Fibra 300MB', value: 99.90 },
-                        upgradeValue: 0,
-                        commissionValue: 3.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-25T09:30:00Z'
-                    },
-                    {
-                        id: 'renewal_12',
-                        collaboratorId: '6',
-                        collaboratorName: 'Lucia Renovação',
-                        clientName: 'Fernanda Alves',
-                        contractNumber: 'VF202401012',
-                        renewalDate: '2024-01-26',
-                        previousPlan: { name: 'Fibra 100MB', value: 59.90 },
-                        newPlan: { name: 'Fibra 500MB + TV', value: 179.90 },
-                        upgradeValue: 120.00,
-                        commissionValue: 123.00,
-                        status: 'valid',
-                        paymentStatus: 'paid',
-                        createdAt: '2024-01-26T11:15:00Z'
-                    }
-                ],
 
                 // Funções
                 addGoal() {
@@ -1852,7 +1858,7 @@
                 },
                 
                 deleteRenewal(renewalId) {
-                    if (confirm('Tem certeza que deseja excluir esta renovação?')) {
+                    if (confirm('Tem certeza que deseja excluir esta comissão?')) {
                         this.renewals = this.renewals.filter(r => r.id !== renewalId);
                         this.saveData();
                     }
@@ -1989,45 +1995,44 @@
                     this.saveData();
                 },
                 
-                registerRenewal() {
+                registerCommission() {
                     if (!this.newRenewal.collaboratorId || !this.newRenewal.clientName || !this.newRenewal.commissionType || !this.newRenewal.renewalDate) {
-                        alert('Por favor, preencha os campos obrigatórios');
+                        alert('Por favor, preencha todos os campos obrigatórios');
                         return;
                     }
                     
                     const collaborator = this.collaborators.find(c => c.id === this.newRenewal.collaboratorId);
                     const upgradeValue = Math.max(0, this.newRenewal.newPlanValue - this.newRenewal.previousPlanValue);
-                    const commissionValue = 3 + upgradeValue;
                     
-                    const renewal = {
-                        id: this.editingRenewal ? this.editingRenewal.id : 'renewal_' + Date.now(),
+                    const commission = {
+                        id: this.editingCommission ? this.editingCommission.id : 'commission_' + Date.now(),
                         collaboratorId: this.newRenewal.collaboratorId,
                         collaboratorName: collaborator ? collaborator.name : 'Não informado',
                         clientName: this.newRenewal.clientName,
                         contractNumber: this.newRenewal.contractNumber,
                         renewalDate: this.newRenewal.renewalDate,
-                        commissionType: this.newRenewal.commissionType,
-                        previousPlan: { name: 'Valor Base', value: this.newRenewal.previousPlanValue },
-                        newPlan: { name: 'Valor Adicional', value: this.newRenewal.newPlanValue },
+                        previousPlan: { name: 'Plano Anterior', value: this.newRenewal.previousPlanValue },
+                        newPlan: { name: 'Novo Plano', value: this.newRenewal.newPlanValue },
                         upgradeValue: upgradeValue,
-                        commissionValue: commissionValue,
-                        status: this.editingRenewal ? this.editingRenewal.status : 'valid',
-                        paymentStatus: this.editingRenewal ? this.editingRenewal.paymentStatus : 'paid',
-                        createdAt: this.editingRenewal ? this.editingRenewal.createdAt : new Date().toISOString()
+                        commissionValue: upgradeValue + 3, // Comissão base + upgrade
+                        commissionType: this.newRenewal.commissionType,
+                        status: this.editingCommission ? this.editingCommission.status : 'valid',
+                        paymentStatus: this.editingCommission ? this.editingCommission.paymentStatus : 'paid',
+                        createdAt: this.editingCommission ? this.editingCommission.createdAt : new Date().toISOString()
                     };
                     
-                    if (this.editingRenewal) {
-                        // Atualizar renovação existente
-                        const index = this.renewals.findIndex(r => r.id === this.editingRenewal.id);
+                    if (this.editingCommission) {
+                        // Atualizar comissão existente
+                        const index = this.renewals.findIndex(r => r.id === this.editingCommission.id);
                         if (index !== -1) {
-                            this.renewals[index] = renewal;
+                            this.renewals[index] = commission;
                         }
-                        this.editingRenewal = null;
-                        alert('Renovação atualizada com sucesso!');
+                        this.editingCommission = null;
+                        alert('Comissão atualizada com sucesso!');
                     } else {
-                        // Adicionar nova renovação
-                        this.renewals.push(renewal);
-                        alert('Renovação registrada com sucesso!');
+                        // Adicionar nova comissão
+                        this.renewals.push(commission);
+                        alert('Comissão registrada com sucesso!');
                     }
                     
                     // Limpar formulário
@@ -2223,6 +2228,42 @@
                             goalsContainer.appendChild(goalElement);
                         });
                     }
+                },
+                editCommission(commission) {
+                    this.editingCommission = commission;
+                    this.newRenewal = {
+                        collaboratorId: commission.collaboratorId,
+                        clientName: commission.clientName,
+                        contractNumber: commission.contractNumber,
+                        renewalDate: commission.renewalDate,
+                        previousPlanValue: commission.previousPlan.value,
+                        newPlanValue: commission.newPlan.value,
+                        commissionType: commission.commissionType || ''
+                    };
+                },
+                
+                viewCommission(commission) {
+                    this.viewingCommission = commission;
+                },
+                
+                deleteCommission(commissionId) {
+                    if (confirm('Tem certeza que deseja excluir esta comissão?')) {
+                        this.renewals = this.renewals.filter(r => r.id !== commissionId);
+                        this.saveData();
+                    }
+                },
+                
+                cancelCommissionEdit() {
+                    this.editingCommission = null;
+                    this.newRenewal = {
+                        collaboratorId: '',
+                        clientName: '',
+                        contractNumber: '',
+                        renewalDate: '',
+                        previousPlanValue: 0,
+                        newPlanValue: 0,
+                        commissionType: ''
+                    };
                 }
             }
             
