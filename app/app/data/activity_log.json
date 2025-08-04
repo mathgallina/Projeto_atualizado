@@ -12,5 +12,26 @@
     "action": "logout",
     "details": "Logout realizado por Matheus Gallina",
     "timestamp": "2025-08-01T16:07:18.137856"
+  },
+  {
+    "id": "activity-20250803125503",
+    "user_id": "admin-001",
+    "action": "login",
+    "details": "Login realizado por Matheus Gallina",
+    "timestamp": "2025-08-03T12:55:03.114462"
+  },
+  {
+    "id": "activity-20250804083327",
+    "user_id": "admin-001",
+    "action": "login",
+    "details": "Login realizado por Matheus Gallina",
+    "timestamp": "2025-08-04T08:33:27.370409"
+  },
+  {
+    "id": "activity-20250804140306",
+    "user_id": "admin-001",
+    "action": "login",
+    "details": "Login realizado por Matheus Gallina",
+    "timestamp": "2025-08-04T14:03:06.477327"
   }
 ]
