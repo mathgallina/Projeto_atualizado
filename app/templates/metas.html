@@ -254,13 +254,13 @@
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Título da Meta *
                                         </label>
-                                        <input type="text" x-model="newGoal.title" placeholder="Digite o título da meta" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <input type="text" id="goalTitle" placeholder="Digite o título da meta" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Descrição
                                         </label>
-                                        <textarea x-model="newGoal.description" placeholder="Descreva os detalhes da meta" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                        <textarea id="goalDescription" placeholder="Descreva os detalhes da meta" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
                                     </div>
                                 </div>
                                 <div class="space-y-4">
@@ -268,11 +268,8 @@
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Setor *
                                         </label>
-                                        <select x-model="newGoal.sectorId" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <select id="goalSector" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                             <option value="">Selecione o setor</option>
-                                            <template x-for="sector in sectors" :key="sector.id">
-                                                <option :value="sector.id" x-text="sector.name"></option>
-                                            </template>
                                         </select>
                                     </div>
                                     <div class="grid grid-cols-2 gap-4">
@@ -280,7 +277,7 @@
                                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                                 Tipo de Meta
                                             </label>
-                                            <select x-model="newGoal.type" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <select id="goalType" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                                 <option value="">Selecione o tipo</option>
                                                 <option value="vendas">Vendas</option>
                                                 <option value="renovacao">Renovação</option>
@@ -292,7 +289,7 @@
                                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                                 Prioridade
                                             </label>
-                                            <select x-model="newGoal.priority" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                            <select id="goalPriority" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                                 <option value="">Selecione a prioridade</option>
                                                 <option value="baixa">Baixa</option>
                                                 <option value="media">Média</option>
@@ -305,12 +302,12 @@
                                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Valor/Meta Alvo
                                         </label>
-                                        <input type="text" x-model="newGoal.target" placeholder="Ex: R$ 100.000, 50 vendas, 80%" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <input type="text" id="goalTarget" placeholder="Ex: R$ 100.000, 50 vendas, 80%" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-6 flex justify-end space-x-3">
-                                <button id="cancelGoalBtn" style="display: none;" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                <button id="cancelGoalBtn" style="display: none;" onclick="metasApp.cancelGoalEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
                                     Cancelar
                                 </button>
                                 <button onclick="metasApp.addGoal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
@@ -1343,19 +1340,26 @@
 
                 // Funções
                 addGoal() {
-                    if (!this.newGoal.title || !this.newGoal.sectorId) {
+                    const title = document.getElementById('goalTitle').value;
+                    const description = document.getElementById('goalDescription').value;
+                    const sectorId = document.getElementById('goalSector').value;
+                    const type = document.getElementById('goalType').value;
+                    const priority = document.getElementById('goalPriority').value;
+                    const target = document.getElementById('goalTarget').value;
+                    
+                    if (!title || !sectorId) {
                         alert('Por favor, preencha os campos obrigatórios');
                         return;
                     }
                     
                     const goal = {
                         id: this.editingGoal ? this.editingGoal.id : Date.now().toString(),
-                        title: this.newGoal.title,
-                        description: this.newGoal.description,
-                        sectorId: this.newGoal.sectorId,
-                        type: this.newGoal.type,
-                        priority: this.newGoal.priority,
-                        target: this.newGoal.target,
+                        title: title,
+                        description: description,
+                        sectorId: sectorId,
+                        type: type,
+                        priority: priority,
+                        target: target,
                         status: this.editingGoal ? this.editingGoal.status : 'in_progress',
                         progress: this.editingGoal ? this.editingGoal.progress : 0
                     };
@@ -1373,15 +1377,20 @@
                     }
                     
                     // Limpar formulário
-                    this.newGoal = {
-                        title: '',
-                        description: '',
-                        sectorId: '',
-                        type: '',
-                        priority: '',
-                        target: ''
-                    };
+                    document.getElementById('goalTitle').value = '';
+                    document.getElementById('goalDescription').value = '';
+                    document.getElementById('goalSector').value = '';
+                    document.getElementById('goalType').value = '';
+                    document.getElementById('goalPriority').value = '';
+                    document.getElementById('goalTarget').value = '';
+                    
+                    // Resetar botão
+                    document.getElementById('goalButtonText').textContent = 'Nova Meta';
+                    document.getElementById('cancelGoalBtn').style.display = 'none';
+                    this.editingGoal = null;
+                    
                     this.saveData();
+                    this.loadGoals(); // Recarregar lista
                 },
                 
                 addCollaborator() {
@@ -1791,8 +1800,74 @@
                         localStorage.removeItem('metas_renewals');
                         location.reload(); // Recarrega a página para voltar aos dados padrão
                     }
+                },
+                
+                // Função para carregar setores no select
+                loadSectorsToSelect() {
+                    const sectorSelect = document.getElementById('goalSector');
+                    if (sectorSelect) {
+                        sectorSelect.innerHTML = '<option value="">Selecione o setor</option>';
+                        this.sectors.forEach(sector => {
+                            const option = document.createElement('option');
+                            option.value = sector.id;
+                            option.textContent = sector.name;
+                            sectorSelect.appendChild(option);
+                        });
+                    }
+                },
+                
+                // Função para carregar metas na lista
+                loadGoals() {
+                    const goalsContainer = document.querySelector('#goals-content .space-y-4');
+                    if (goalsContainer) {
+                        goalsContainer.innerHTML = '';
+                        this.goals.forEach(goal => {
+                            const goalElement = document.createElement('div');
+                            goalElement.className = 'p-4 border border-gray-200 dark:border-gray-700 rounded-lg';
+                            goalElement.innerHTML = `
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-3 h-3 rounded-full ${goal.status === 'completed' ? 'bg-green-500' : goal.status === 'in_progress' ? 'bg-yellow-500' : 'bg-red-500'}"></div>
+                                            <div>
+                                                <h5 class="font-medium text-gray-900 dark:text-gray-100">${goal.title}</h5>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">${goal.description}</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                                            <span>Setor: ${this.getSectorName(goal.sectorId)}</span>
+                                            <span>Tipo: ${goal.type}</span>
+                                            <span>Prioridade: ${goal.priority}</span>
+                                            <span>Meta: ${goal.target}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="text-right mr-4">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">${goal.progress}%</div>
+                                            <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                                                <div class="bg-blue-600 h-2 rounded-full" style="width: ${goal.progress}%"></div>
+                                            </div>
+                                        </div>
+                                        <button onclick="metasApp.editGoal('${goal.id}')" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-2" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button onclick="metasApp.deleteGoal('${goal.id}')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300" title="Excluir">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                            goalsContainer.appendChild(goalElement);
+                        });
+                    }
                 }
             }
+            
+            // Inicializar após carregamento da página
+            document.addEventListener('DOMContentLoaded', function() {
+                metasApp.loadSectorsToSelect();
+                metasApp.loadGoals();
+            });
         }
     </script>
 </body>
