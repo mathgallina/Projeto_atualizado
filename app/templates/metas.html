@@ -1177,12 +1177,12 @@
         </div>
         
         <!-- Modal de Visualização de Renovação -->
-        <div x-show="viewingRenewal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="viewingRenewal = null">
+        <div x-show="viewingRenewal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="viewingRenewal = false">
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg max-w-2xl w-full mx-4">
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex justify-between items-center">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Detalhes da Renovação</h3>
-                        <button @click="viewingRenewal = null" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <button @click="viewingRenewal = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                             <i class="fas fa-times text-xl"></i>
                         </button>
                     </div>
@@ -1241,10 +1241,10 @@
                         </div>
                         
                         <div class="flex justify-end space-x-3 pt-4">
-                            <button @click="viewingRenewal = null" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                            <button @click="viewingRenewal = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
                                 Fechar
                             </button>
-                            <button @click="editRenewal(viewingRenewal); viewingRenewal = null" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                            <button @click="editRenewal(viewingRenewal); viewingRenewal = false" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
                                 <i class="fas fa-edit mr-2"></i>
                                 Editar Renovação
                             </button>
@@ -1280,7 +1280,7 @@
                 editingGoal: null,
                 viewingGoal: null,
                 editingRenewal: null,
-                viewingRenewal: null,
+                viewingRenewal: false,
                 selectedCollaborator: '',
                 selectedMonth: new Date().getMonth() + 1,
                 selectedYear: new Date().getFullYear(),
