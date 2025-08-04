@@ -5,51 +5,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Metas - VELOZ FIBRA</title>
     <script>
-        // JavaScript puro para funcionar sem Alpine.js
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('JavaScript carregado');
+        // Sistema de Metas - JavaScript Puro
+        window.metasApp = {
+            activeTab: 'goals',
+            goals: [
+                { id: '1', title: 'Meta de Renovações - Janeiro 2024', description: 'Atingir 100 renovações válidas', sectorId: '1', type: 'renovacao', priority: 'alta', target: '100 renovações', status: 'in_progress', progress: 75 },
+                { id: '2', title: 'Meta de Vendas - Q1 2024', description: 'Aumentar vendas em 20%', sectorId: '2', type: 'vendas', priority: 'critica', target: 'R$ 500.000', status: 'in_progress', progress: 60 },
+                { id: '3', title: 'Meta de Atendimento - Fevereiro', description: 'Manter satisfação acima de 90%', sectorId: '3', type: 'atendimento', priority: 'media', target: '90% satisfação', status: 'completed', progress: 95 }
+            ],
+            collaborators: [
+                { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
+                { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-2222', status: 'ativo' },
+                { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-3333', status: 'ativo' }
+            ],
+            sectors: [
+                { id: '1', name: 'Renovação', description: 'Setor responsável por renovações', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
+                { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
+                { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
+                { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
+                { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
+                { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
+            ],
             
-            // Dados padrão
-            const data = {
-                activeTab: 'goals',
-                goals: [
-                    { id: '1', title: 'Meta de Renovações - Janeiro 2024', description: 'Atingir 100 renovações válidas', sectorId: '1', type: 'renovacao', priority: 'alta', target: '100 renovações', status: 'in_progress', progress: 75 },
-                    { id: '2', title: 'Meta de Vendas - Q1 2024', description: 'Aumentar vendas em 20%', sectorId: '2', type: 'vendas', priority: 'critica', target: 'R$ 500.000', status: 'in_progress', progress: 60 },
-                    { id: '3', title: 'Meta de Atendimento - Fevereiro', description: 'Manter satisfação acima de 90%', sectorId: '3', type: 'atendimento', priority: 'media', target: '90% satisfação', status: 'completed', progress: 95 }
-                ],
-                collaborators: [
-                    { id: '1', name: 'João Silva', email: 'joao.silva@velozfibra.com', sectorId: '1', position: 'Analista de Renovação', phone: '(11) 99999-1111', status: 'ativo' },
-                    { id: '2', name: 'Maria Santos', email: 'maria.santos@velozfibra.com', sectorId: '2', position: 'Vendedor', phone: '(11) 99999-2222', status: 'ativo' },
-                    { id: '3', name: 'Pedro Costa', email: 'pedro.costa@velozfibra.com', sectorId: '3', position: 'Atendente', phone: '(11) 99999-3333', status: 'ativo' }
-                ],
-                sectors: [
-                    { id: '1', name: 'Renovação', description: 'Setor responsável por renovações', manager: 'João Silva', budget: 'R$ 50.000', location: 'Andar 1 - Sala 101', status: 'ativo' },
-                    { id: '2', name: 'Vendas', description: 'Setor de vendas e prospecção', manager: 'Maria Santos', budget: 'R$ 100.000', location: 'Andar 2 - Sala 201', status: 'ativo' },
-                    { id: '3', name: 'Atendimento', description: 'Setor de atendimento ao cliente', manager: 'Pedro Costa', budget: 'R$ 30.000', location: 'Andar 1 - Sala 102', status: 'ativo' },
-                    { id: '4', name: 'Técnico', description: 'Setor técnico e suporte', manager: 'Ana Silva', budget: 'R$ 80.000', location: 'Andar 3 - Sala 301', status: 'ativo' },
-                    { id: '5', name: 'Marketing', description: 'Setor de marketing e comunicação', manager: 'Carlos Lima', budget: 'R$ 60.000', location: 'Andar 2 - Sala 202', status: 'ativo' },
-                    { id: '6', name: 'Financeiro', description: 'Setor financeiro e administrativo', manager: 'Lucia Santos', budget: 'R$ 40.000', location: 'Andar 1 - Sala 103', status: 'ativo' }
-                ]
-            };
+            // Função para adicionar meta
+            addGoal: function() {
+                const title = document.getElementById('goalTitle').value;
+                const description = document.getElementById('goalDescription').value;
+                const sectorId = document.getElementById('goalSector').value;
+                const type = document.getElementById('goalType').value;
+                const priority = document.getElementById('goalPriority').value;
+                const target = document.getElementById('goalTarget').value;
+                
+                if (!title || !sectorId) {
+                    alert('Por favor, preencha os campos obrigatórios');
+                    return;
+                }
+                
+                const goal = {
+                    id: Date.now().toString(),
+                    title: title,
+                    description: description,
+                    sectorId: sectorId,
+                    type: type,
+                    priority: priority,
+                    target: target,
+                    status: 'in_progress',
+                    progress: 0
+                };
+                
+                this.goals.push(goal);
+                
+                // Limpar formulário
+                document.getElementById('goalTitle').value = '';
+                document.getElementById('goalDescription').value = '';
+                document.getElementById('goalSector').value = '';
+                document.getElementById('goalType').value = '';
+                document.getElementById('goalPriority').value = '';
+                document.getElementById('goalTarget').value = '';
+                
+                // Recarregar lista
+                this.loadGoals();
+                
+                alert('Meta adicionada com sucesso!');
+            },
             
-            // Funções
-            window.metasApp = function() {
-                return data;
-            };
+            // Função para carregar metas
+            loadGoals: function() {
+                const container = document.querySelector('#goals-content .space-y-4');
+                if (container) {
+                    container.innerHTML = '';
+                    this.goals.forEach(goal => {
+                        const goalElement = document.createElement('div');
+                        goalElement.className = 'p-4 border border-gray-200 dark:border-gray-700 rounded-lg';
+                        goalElement.innerHTML = `
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-900 dark:text-gray-100">${goal.title}</h5>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">${goal.description}</p>
+                                    <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                        <span>Setor: ${this.getSectorName(goal.sectorId)}</span> | 
+                                        <span>Tipo: ${goal.type}</span> | 
+                                        <span>Prioridade: ${goal.priority}</span> | 
+                                        <span>Meta: ${goal.target}</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">${goal.progress}%</div>
+                                    <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-1">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: ${goal.progress}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(goalElement);
+                    });
+                }
+            },
             
-            // Mostrar conteúdo inicial
-            showTab('goals');
+            // Função para carregar setores no select
+            loadSectorsToSelect: function() {
+                const sectorSelect = document.getElementById('goalSector');
+                if (sectorSelect) {
+                    sectorSelect.innerHTML = '<option value="">Selecione o setor</option>';
+                    this.sectors.forEach(sector => {
+                        const option = document.createElement('option');
+                        option.value = sector.id;
+                        option.textContent = sector.name;
+                        sectorSelect.appendChild(option);
+                    });
+                }
+            },
             
-            // Adicionar event listeners
-            document.querySelectorAll('[data-tab]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const tab = this.getAttribute('data-tab');
-                    showTab(tab);
-                });
-            });
+            // Função para obter nome do setor
+            getSectorName: function(sectorId) {
+                const sector = this.sectors.find(s => s.id === sectorId);
+                return sector ? sector.name : 'Setor não encontrado';
+            },
             
-            function showTab(tabName) {
-                data.activeTab = tabName;
+            // Função para mostrar aba
+            showTab: function(tabName) {
+                this.activeTab = tabName;
                 
                 // Esconder todos os conteúdos
                 document.querySelectorAll('.tab-content').forEach(content => {
@@ -74,6 +149,22 @@
                     activeBtn.classList.add('border-blue-500', 'text-blue-600');
                 }
             }
+        };
+        
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Sistema de Metas carregado');
+            metasApp.loadSectorsToSelect();
+            metasApp.loadGoals();
+            metasApp.showTab('goals');
+            
+            // Adicionar event listeners para as abas
+            document.querySelectorAll('[data-tab]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    metasApp.showTab(tab);
+                });
+            });
         });
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -97,7 +188,7 @@
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 font-poppins">
-    <div x-data="metasApp()" x-init="console.log('Alpine.js loaded'); if(typeof metasApp === 'undefined') { console.error('metasApp not loaded'); }" class="min-h-screen">
+    <div class="min-h-screen">
         <!-- Header -->
         <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
