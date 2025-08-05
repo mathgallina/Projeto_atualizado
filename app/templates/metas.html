@@ -858,6 +858,77 @@
                 console.log('✅ Sistema de abas corrigido!');
             },
             
+            // Corrigir sistema de setores
+            fixSectorSystem: function() {
+                console.log('🔧 Corrigindo sistema de setores...');
+                
+                // Corrigir função showSectorForm
+                if (window.metasApp) {
+                    window.metasApp.showSectorForm = function() {
+                        console.log('🔄 Mostrando formulário de setor...');
+                        const form = document.getElementById('sectorForm');
+                        if (form) {
+                            form.style.display = 'block';
+                            console.log('✅ Formulário de setor exibido');
+                        } else {
+                            console.log('❌ Formulário de setor não encontrado');
+                        }
+                    };
+                    
+                    // Corrigir função addSector
+                    window.metasApp.addSector = function() {
+                        console.log('🔄 Adicionando setor...');
+                        const name = document.getElementById('sectorName')?.value || '';
+                        const manager = document.getElementById('sectorManager')?.value || '';
+                        const budget = document.getElementById('sectorBudget')?.value || '';
+                        const location = document.getElementById('sectorLocation')?.value || '';
+                        const status = document.getElementById('sectorStatus')?.value || 'ativo';
+                        const description = document.getElementById('sectorDescription')?.value || '';
+                        
+                        if (!name || !manager) {
+                            alert('Por favor, preencha os campos obrigatórios (Nome e Gerente)');
+                            return;
+                        }
+                        
+                        const sector = {
+                            id: Date.now().toString(),
+                            name: name,
+                            manager: manager,
+                            budget: budget,
+                            location: location,
+                            status: status,
+                            description: description
+                        };
+                        
+                        this.sectors.push(sector);
+                        
+                        // Limpar formulário
+                        if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
+                        if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
+                        if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
+                        if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
+                        if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
+                        if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+                        
+                        // Esconder formulário
+                        const form = document.getElementById('sectorForm');
+                        if (form) form.style.display = 'none';
+                        
+                        // Salvar dados
+                        this.saveData();
+                        
+                        // Recarregar listas
+                        this.loadSectorsToSelect();
+                        this.loadSectorsList();
+                        
+                        console.log('✅ Setor adicionado com sucesso!');
+                        alert('Setor adicionado com sucesso!');
+                    };
+                }
+                
+                console.log('✅ Sistema de setores corrigido!');
+            },
+            
             // Aplicar todas as correções
             applyAllFixes: function() {
                 console.log('🚀 Aplicando correções no sistema de metas...');
@@ -867,6 +938,7 @@
                 this.fixAddCollaborator();
                 this.fixCancelCollaboratorEdit();
                 this.fixTabSystem();
+                this.fixSectorSystem();
                 
                 console.log('✅ Todas as correções aplicadas!');
                 console.log('🎯 Sistema de metas agora deve funcionar corretamente!');
