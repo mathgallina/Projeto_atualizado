@@ -660,55 +660,72 @@
         
         // Função global para adicionar setor
         function addSector() {
-            console.log('🔄 Adicionando setor...');
-            const name = document.getElementById('sectorName')?.value || '';
-            const manager = document.getElementById('sectorManager')?.value || '';
-            const budget = document.getElementById('sectorBudget')?.value || '';
-            const location = document.getElementById('sectorLocation')?.value || '';
-            const status = document.getElementById('sectorStatus')?.value || 'ativo';
-            const description = document.getElementById('sectorDescription')?.value || '';
+            console.log('🔄 Função addSector chamada!');
             
-            if (!name || !manager) {
-                alert('Por favor, preencha os campos obrigatórios (Nome e Gerente)');
-                return;
-            }
-            
-            const sector = {
-                id: Date.now().toString(),
-                name: name,
-                manager: manager,
-                budget: budget,
-                location: location,
-                status: status,
-                description: description
-            };
-            
-            if (window.metasApp) {
-                window.metasApp.sectors.push(sector);
+            try {
+                const name = document.getElementById('sectorName')?.value || '';
+                const manager = document.getElementById('sectorManager')?.value || '';
+                const budget = document.getElementById('sectorBudget')?.value || '';
+                const location = document.getElementById('sectorLocation')?.value || '';
+                const status = document.getElementById('sectorStatus')?.value || 'ativo';
+                const description = document.getElementById('sectorDescription')?.value || '';
                 
-                // Limpar formulário
-                if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
-                if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
-                if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
-                if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
-                if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
-                if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+                console.log('📝 Dados capturados:', { name, manager, budget, location, status, description });
                 
-                // Esconder formulário
-                const form = document.getElementById('sectorForm');
-                if (form) form.style.display = 'none';
+                if (!name || !manager) {
+                    alert('Por favor, preencha os campos obrigatórios (Nome e Gerente)');
+                    return;
+                }
                 
-                // Salvar dados
-                window.metasApp.saveData();
+                const sector = {
+                    id: Date.now().toString(),
+                    name: name,
+                    manager: manager,
+                    budget: budget,
+                    location: location,
+                    status: status,
+                    description: description
+                };
                 
-                // Recarregar listas
-                window.metasApp.loadSectorsToSelect();
-                window.metasApp.loadSectorsList();
+                console.log('🏢 Setor criado:', sector);
                 
-                console.log('✅ Setor adicionado com sucesso!');
-                alert('Setor adicionado com sucesso!');
-            } else {
-                console.log('❌ metasApp não encontrado');
+                if (window.metasApp) {
+                    console.log('✅ metasApp encontrado, adicionando setor...');
+                    window.metasApp.sectors.push(sector);
+                    
+                    // Limpar formulário
+                    if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
+                    if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
+                    if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
+                    if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
+                    if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
+                    if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+                    
+                    // Esconder formulário
+                    const form = document.getElementById('sectorForm');
+                    if (form) {
+                        form.style.display = 'none';
+                        console.log('✅ Formulário escondido');
+                    }
+                    
+                    // Salvar dados
+                    window.metasApp.saveData();
+                    console.log('✅ Dados salvos');
+                    
+                    // Recarregar listas
+                    window.metasApp.loadSectorsToSelect();
+                    window.metasApp.loadSectorsList();
+                    console.log('✅ Listas recarregadas');
+                    
+                    console.log('✅ Setor adicionado com sucesso!');
+                    alert('Setor adicionado com sucesso!');
+                } else {
+                    console.log('❌ metasApp não encontrado');
+                    alert('Erro: Sistema não encontrado');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao adicionar setor:', error);
+                alert('Erro ao adicionar setor: ' + error.message);
             }
         }
         
