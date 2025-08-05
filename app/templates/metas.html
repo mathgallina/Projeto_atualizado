@@ -646,6 +646,91 @@
             }
         }
         
+        // Função global para mostrar formulário de setor
+        function showSectorForm() {
+            console.log('🔄 Mostrando formulário de setor...');
+            const form = document.getElementById('sectorForm');
+            if (form) {
+                form.style.display = 'block';
+                console.log('✅ Formulário de setor exibido');
+            } else {
+                console.log('❌ Formulário de setor não encontrado');
+            }
+        }
+        
+        // Função global para adicionar setor
+        function addSector() {
+            console.log('🔄 Adicionando setor...');
+            const name = document.getElementById('sectorName')?.value || '';
+            const manager = document.getElementById('sectorManager')?.value || '';
+            const budget = document.getElementById('sectorBudget')?.value || '';
+            const location = document.getElementById('sectorLocation')?.value || '';
+            const status = document.getElementById('sectorStatus')?.value || 'ativo';
+            const description = document.getElementById('sectorDescription')?.value || '';
+            
+            if (!name || !manager) {
+                alert('Por favor, preencha os campos obrigatórios (Nome e Gerente)');
+                return;
+            }
+            
+            const sector = {
+                id: Date.now().toString(),
+                name: name,
+                manager: manager,
+                budget: budget,
+                location: location,
+                status: status,
+                description: description
+            };
+            
+            if (window.metasApp) {
+                window.metasApp.sectors.push(sector);
+                
+                // Limpar formulário
+                if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
+                if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
+                if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
+                if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
+                if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
+                if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+                
+                // Esconder formulário
+                const form = document.getElementById('sectorForm');
+                if (form) form.style.display = 'none';
+                
+                // Salvar dados
+                window.metasApp.saveData();
+                
+                // Recarregar listas
+                window.metasApp.loadSectorsToSelect();
+                window.metasApp.loadSectorsList();
+                
+                console.log('✅ Setor adicionado com sucesso!');
+                alert('Setor adicionado com sucesso!');
+            } else {
+                console.log('❌ metasApp não encontrado');
+            }
+        }
+        
+        // Função global para cancelar edição de setor
+        function cancelSectorEdit() {
+            console.log('🔄 Cancelando edição de setor...');
+            const form = document.getElementById('sectorForm');
+            if (form) {
+                form.style.display = 'none';
+                
+                // Limpar formulário
+                if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
+                if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
+                if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
+                if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
+                if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
+                if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+                
+                console.log('✅ Edição de setor cancelada');
+            }
+        }
+        
         // Função global para limpar todos os dados
         function clearAllData() {
             if (confirm('Tem certeza que deseja limpar todos os dados? Isso irá remover todas as metas, colaboradores, setores e comissões cadastradas.')) {
@@ -1382,7 +1467,7 @@
                                 <i class="fas fa-building text-blue-500 mr-2"></i>
                                 Gerenciar Setores
                             </h3>
-                            <button onclick="metasApp.showSectorForm()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
+                            <button onclick="showSectorForm()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium flex items-center">
                                 <i class="fas fa-plus mr-2"></i>
                                 Novo Setor
                             </button>
@@ -1441,10 +1526,10 @@
                                 </div>
                             </div>
                             <div class="mt-6 flex justify-end space-x-3">
-                                <button onclick="metasApp.cancelSectorEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
+                                <button onclick="cancelSectorEdit()" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium">
                                     Cancelar
                                 </button>
-                                <button onclick="metasApp.addSector()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                                <button onclick="addSector()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium flex items-center">
                                     <i class="fas fa-plus mr-2"></i>
                                     <span id="sectorButtonText">Cadastrar Setor</span>
                                 </button>
