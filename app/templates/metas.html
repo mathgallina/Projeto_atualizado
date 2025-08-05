@@ -691,6 +691,13 @@
                 
                 if (window.metasApp) {
                     console.log('✅ metasApp encontrado, adicionando setor...');
+                    
+                    // Garantir que sectors existe
+                    if (!window.metasApp.sectors) {
+                        console.log('⚠️ sectors não existe, criando array...');
+                        window.metasApp.sectors = [];
+                    }
+                    
                     window.metasApp.sectors.push(sector);
                     
                     // Limpar formulário
