@@ -609,6 +609,43 @@
             }, 1000);
         });
         
+        // Função global para trocar abas - VERSÃO SIMPLIFICADA
+        function switchTab(tabName) {
+            console.log('🔄 Função switchTab chamada para:', tabName);
+            
+            // Esconder todos os conteúdos
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Mostrar conteúdo da aba selecionada
+            const content = document.getElementById(tabName + '-content');
+            if (content) {
+                content.style.display = 'block';
+                console.log('✅ Conteúdo da aba', tabName, 'exibido');
+            } else {
+                console.log('❌ Conteúdo da aba', tabName, 'não encontrado');
+            }
+            
+            // Atualizar botões
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            const activeBtn = document.getElementById('tab-' + tabName);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-gray-500');
+                activeBtn.classList.add('border-blue-500', 'text-blue-600');
+                console.log('✅ Botão da aba', tabName, 'ativado');
+            }
+            
+            // Atualizar estado
+            if (window.metasApp) {
+                window.metasApp.activeTab = tabName;
+            }
+        }
+        
         // Função global para limpar todos os dados
         function clearAllData() {
             if (confirm('Tem certeza que deseja limpar todos os dados? Isso irá remover todas as metas, colaboradores, setores e comissões cadastradas.')) {
@@ -969,19 +1006,19 @@
                 <!-- Tabs -->
                 <div class="border-b border-gray-200/50 dark:border-gray-700/50 mb-8">
                     <nav class="flex space-x-8">
-                        <button data-tab="goals" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-blue-500 text-blue-600 dark:text-blue-400">
+                        <button onclick="switchTab('goals')" id="tab-goals" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-blue-500 text-blue-600 dark:text-blue-400">
                             <i class="fas fa-bullseye mr-2"></i>
                             Metas
                         </button>
-                        <button data-tab="collaborators" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-transparent text-gray-500 dark:text-gray-400">
+                        <button onclick="switchTab('collaborators')" id="tab-collaborators" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-transparent text-gray-500 dark:text-gray-400">
                             <i class="fas fa-users mr-2"></i>
                             Colaboradores
                         </button>
-                        <button data-tab="sectors" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-transparent text-gray-500 dark:text-gray-400">
+                        <button onclick="switchTab('sectors')" id="tab-sectors" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-transparent text-gray-500 dark:text-gray-400">
                             <i class="fas fa-building mr-2"></i>
                             Setores
                         </button>
-                        <button data-tab="commissions" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-transparent text-gray-500 dark:text-gray-400">
+                        <button onclick="switchTab('commissions')" id="tab-commissions" class="py-3 px-1 border-b-2 font-medium text-sm transition-colors border-transparent text-gray-500 dark:text-gray-400">
                             <i class="fas fa-dollar-sign mr-2"></i>
                             Comissões
                         </button>
