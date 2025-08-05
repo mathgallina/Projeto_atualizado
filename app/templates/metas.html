@@ -548,9 +548,65 @@
             document.querySelectorAll('[data-tab]').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const tab = this.getAttribute('data-tab');
+                    console.log('🔄 Clicou na aba:', tab);
                     metasApp.showTab(tab);
                 });
             });
+            
+            // Corrigir sistema de abas - versão mais robusta
+            window.fixTabSystem = function() {
+                console.log('🔧 Corrigindo sistema de abas...');
+                
+                // Remover event listeners antigos
+                document.querySelectorAll('[data-tab]').forEach(btn => {
+                    btn.removeEventListener('click', window.tabClickHandler);
+                });
+                
+                // Criar novo handler
+                window.tabClickHandler = function() {
+                    const tab = this.getAttribute('data-tab');
+                    console.log('🔄 Aba clicada:', tab);
+                    
+                    // Esconder todos os conteúdos
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    // Mostrar conteúdo da aba selecionada
+                    const content = document.getElementById(tab + '-content');
+                    if (content) {
+                        content.style.display = 'block';
+                        console.log('✅ Conteúdo da aba', tab, 'exibido');
+                    }
+                    
+                    // Atualizar botões
+                    document.querySelectorAll('[data-tab]').forEach(btn => {
+                        btn.classList.remove('border-blue-500', 'text-blue-600');
+                        btn.classList.add('border-transparent', 'text-gray-500');
+                    });
+                    
+                    const activeBtn = document.querySelector('[data-tab="' + tab + '"]');
+                    if (activeBtn) {
+                        activeBtn.classList.remove('border-transparent', 'text-gray-500');
+                        activeBtn.classList.add('border-blue-500', 'text-blue-600');
+                    }
+                    
+                    // Atualizar estado
+                    window.metasApp.activeTab = tab;
+                };
+                
+                // Adicionar novos event listeners
+                document.querySelectorAll('[data-tab]').forEach(btn => {
+                    btn.addEventListener('click', window.tabClickHandler);
+                });
+                
+                console.log('✅ Sistema de abas corrigido!');
+            };
+            
+            // Aplicar correção do sistema de abas
+            setTimeout(function() {
+                window.fixTabSystem();
+            }, 1000);
         });
         
         // Função global para limpar todos os dados
@@ -751,6 +807,20 @@
                 console.log('✅ Função de cancelar edição corrigida!');
             },
             
+            // Corrigir sistema de abas
+            fixTabSystem: function() {
+                console.log('🔧 Corrigindo sistema de abas...');
+                
+                // Forçar correção das abas
+                setTimeout(function() {
+                    if (window.fixTabSystem) {
+                        window.fixTabSystem();
+                    }
+                }, 500);
+                
+                console.log('✅ Sistema de abas corrigido!');
+            },
+            
             // Aplicar todas as correções
             applyAllFixes: function() {
                 console.log('🚀 Aplicando correções no sistema de metas...');
@@ -759,6 +829,7 @@
                 this.fixCollaboratorForm();
                 this.fixAddCollaborator();
                 this.fixCancelCollaboratorEdit();
+                this.fixTabSystem();
                 
                 console.log('✅ Todas as correções aplicadas!');
                 console.log('🎯 Sistema de metas agora deve funcionar corretamente!');
