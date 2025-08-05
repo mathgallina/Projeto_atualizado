@@ -658,7 +658,7 @@
             }
         }
         
-        // Função global para adicionar setor
+        // Função global para adicionar setor - VERSÃO ROBUSTA
         function addSector() {
             console.log('🔄 Função addSector chamada!');
             
@@ -689,50 +689,110 @@
                 
                 console.log('🏢 Setor criado:', sector);
                 
-                if (window.metasApp) {
-                    console.log('✅ metasApp encontrado, adicionando setor...');
-                    
-                    // Garantir que sectors existe
-                    if (!window.metasApp.sectors) {
-                        console.log('⚠️ sectors não existe, criando array...');
-                        window.metasApp.sectors = [];
-                    }
-                    
-                    window.metasApp.sectors.push(sector);
-                    
-                    // Limpar formulário
-                    if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
-                    if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
-                    if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
-                    if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
-                    if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
-                    if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
-                    
-                    // Esconder formulário
-                    const form = document.getElementById('sectorForm');
-                    if (form) {
-                        form.style.display = 'none';
-                        console.log('✅ Formulário escondido');
-                    }
-                    
-                    // Salvar dados
-                    window.metasApp.saveData();
-                    console.log('✅ Dados salvos');
-                    
-                    // Recarregar listas
-                    window.metasApp.loadSectorsToSelect();
-                    window.metasApp.loadSectorsList();
-                    console.log('✅ Listas recarregadas');
-                    
-                    console.log('✅ Setor adicionado com sucesso!');
-                    alert('Setor adicionado com sucesso!');
-                } else {
-                    console.log('❌ metasApp não encontrado');
-                    alert('Erro: Sistema não encontrado');
+                // Criar metasApp se não existir
+                if (!window.metasApp) {
+                    console.log('⚠️ metasApp não existe, criando...');
+                    window.metasApp = {
+                        sectors: [],
+                        saveData: function() {
+                            localStorage.setItem('metas_sectors', JSON.stringify(this.sectors));
+                            console.log('💾 Dados salvos no localStorage');
+                        },
+                        loadSectorsToSelect: function() {
+                            console.log('🔄 Recarregando selects...');
+                        },
+                        loadSectorsList: function() {
+                            console.log('🔄 Recarregando lista...');
+                            this.displaySectorsInTable();
+                        },
+                        displaySectorsInTable: function() {
+                            const tbody = document.getElementById('sectorsTableBody');
+                            if (tbody) {
+                                tbody.innerHTML = '';
+                                this.sectors.forEach(sector => {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">${sector.name}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">${sector.manager}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">${sector.location || '-'}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">${sector.budget || '-'}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${sector.status === 'ativo' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}">${sector.status}</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button onclick="deleteSector('${sector.id}')" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    `;
+                                    tbody.appendChild(row);
+                                });
+                                console.log('✅ Tabela atualizada com', this.sectors.length, 'setores');
+                            }
+                        }
+                    };
                 }
+                
+                // Garantir que sectors existe
+                if (!window.metasApp.sectors) {
+                    console.log('⚠️ sectors não existe, criando array...');
+                    window.metasApp.sectors = [];
+                }
+                
+                console.log('✅ Adicionando setor ao array...');
+                window.metasApp.sectors.push(sector);
+                console.log('✅ Setor adicionado! Total de setores:', window.metasApp.sectors.length);
+                
+                // Limpar formulário
+                if (document.getElementById('sectorName')) document.getElementById('sectorName').value = '';
+                if (document.getElementById('sectorManager')) document.getElementById('sectorManager').value = '';
+                if (document.getElementById('sectorBudget')) document.getElementById('sectorBudget').value = '';
+                if (document.getElementById('sectorLocation')) document.getElementById('sectorLocation').value = '';
+                if (document.getElementById('sectorStatus')) document.getElementById('sectorStatus').value = 'ativo';
+                if (document.getElementById('sectorDescription')) document.getElementById('sectorDescription').value = '';
+                
+                // Esconder formulário
+                const form = document.getElementById('sectorForm');
+                if (form) {
+                    form.style.display = 'none';
+                    console.log('✅ Formulário escondido');
+                }
+                
+                // Salvar dados
+                window.metasApp.saveData();
+                console.log('✅ Dados salvos');
+                
+                // Recarregar listas
+                window.metasApp.loadSectorsToSelect();
+                window.metasApp.loadSectorsList();
+                console.log('✅ Listas recarregadas');
+                
+                console.log('✅ Setor adicionado com sucesso!');
+                alert('Setor adicionado com sucesso!');
+                
             } catch (error) {
                 console.error('❌ Erro ao adicionar setor:', error);
                 alert('Erro ao adicionar setor: ' + error.message);
+            }
+        }
+        
+        // Função para deletar setor
+        function deleteSector(sectorId) {
+            if (confirm('Tem certeza que deseja excluir este setor?')) {
+                if (window.metasApp && window.metasApp.sectors) {
+                    window.metasApp.sectors = window.metasApp.sectors.filter(s => s.id !== sectorId);
+                    window.metasApp.saveData();
+                    window.metasApp.loadSectorsList();
+                    alert('Setor excluído com sucesso!');
+                }
             }
         }
         
